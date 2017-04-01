@@ -1,0 +1,143 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[frenchb]{babel} % If you write in French
+%\usepackage[english]{babel} % If you write in English
+\usepackage{lmodern} % Pour changer le pack de police
+\renewcommand*\familydefault{\sfdefault}
+\usepackage{makeidx}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{stmaryrd}
+\usepackage{geometry}
+%\usepackage{graphicx}
+\usepackage{graphbox}
+\usepackage{supertabular}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{pdflscape}
+\geometry{hmargin=2cm,vmargin=1.5cm}
+
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{ltablex}
+\usepackage{float}
+\usepackage{url}
+
+\usepackage{chngcntr}
+\counterwithin*{footnote}{page}
+
+%\usepackage{minted}
+
+\usepackage[titletoc,toc,title,page]{appendix}
+\renewcommand{\appendixtocname}{Annexes}
+\renewcommand{\appendixpagename}{Annexes}
+
+\usepackage{standalone}
+\usepackage{ifthen}
+\usepackage{xstring}
+\usepackage{calc}
+\usepackage{pgfopts}
+\usepackage{tikz}
+\usetikzlibrary{positioning,shapes,shadows,arrows}
+
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\makeatletter
+\renewcommand{\ALG@name}{Algorithme}
+\renewcommand{\listalgorithmname}{Table des algorithmes}
+
+\newtheorem{theo}{Définition}[section]
+\usepackage{mathtools, bm}
+\usepackage{amssymb, bm}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=black,       % color of internal links
+    citecolor=purple,       % color of links to bibliography
+    urlcolor=blue          % color of external links
+}
+\usepackage{listings}
+\definecolor{darkgreen}{rgb}{0, 0.6, 0}
+\lstset{language = caml, frameround = fttt}
+
+\lstset{upquote=true,
+        columns=flexible,
+        keepspaces=true,
+        breaklines,
+        breakindent=0pt,
+        basicstyle=\ttfamily,
+        breaklines=true,
+        keywordstyle=\color{red},
+        commentstyle=\color{darkgreen},
+        tabsize=2,
+        escapebegin=\color{gray},
+}
+\usepackage{blindtext}
+\usepackage{enumitem}
+\title{Projet appliqué au Transport Aérien \\ Chiffrement de Merkle-Hellman - Implémentation et cryptanalyse}
+\author{Florian Barbarin \\ Abdelkader Beldjilali \\ Yanis Bouarroudj \\ Nicolas Holvoet\\ \\ \\ \\Encadrant : Cyril Allignol\\ \\ \\}
+
+% \includegraphics[width=0.6\textwidth]{images/enac}\\[1cm]
+\date{\today}
+
+\makeindex
+\def\siecle#1{\textsc{\romannumeral #1}\textsuperscript{e}}
+\newcommand{\argmax}{\mathop{\mathrm{argmax}}\nolimits}
+\newcommand{\pgcd}{\mathop{\mathrm{pgcd}}\nolimits}
+
+\makeatletter
+\renewcommand{\pod}[1]{\allowbreak\mathchoice
+  {\if@display \mkern 18mu\else \mkern 8mu\fi (#1)}
+  {\if@display \mkern 18mu\else \mkern 8mu\fi (#1)}
+  {\mkern4mu(#1)}
+  {\mkern4mu(#1)}
+}
+
+
+
+
+\begin{document}
+
+
+\input{page-de-couverture/page-de-couverture}%on créé la couverture
+
+\pagebreak
+
+\tableofcontents
+
+\input{intro_conclusion/introduction}
+\input{sections/partie_1}
+\input{sections/partie_2}
+\input{sections/partie_3}
+\include{intro_conclusion/conclusion}
+
+
+\newpage
+\appendix
+\include{annexes/annexe_A}
+\include{annexes/annexe_B}
+
+\newpage
+\nocite{*}  %affiche toutes les entrées du bib même celles qui ne sont pas citées.
+% cf.    http://www.tuteurs.ens.fr/logiciels/latex/bibtex.html
+% compilation en TROIS PHASE  bibtex traite un fichier *.aux mais bibtex mon_fichier comme bibtex mon_fichier.aux sont acceptés 
+% latex mon_fichier.tex
+% bibtex mon_fichier
+% latex mon_fichier.tex
+
+
+% \renewcommand{\bibname}{Toto}
+% ou
+\renewcommand{\refname}{Bibliographie}
+% dans le préambule.
+\bibliographystyle{alpha}
+\bibliography{references}
+
+
+\input{page-de-couverture/quatrieme-de-couv}
+\end{document}
