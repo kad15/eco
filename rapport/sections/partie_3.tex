@@ -1,17 +1,102 @@
 
 \newpage
-\section{Injection SQL}
-L'injection SQL est une des attaques les plus dangereuses.  
+\section{Injection SQL }
+
 
 \subsection{Description}
+L'injection SQL, en anglais SQL  injection ou SQLi en abrégé, est une des attaques les plus dangereuses. Comme pour le Cross Site Scripting présenté dans la suite de ce document, il s'agit ici de tirer parti de l'absence de filtrage des entrées utilisateurs. Cette absence de contrôles permet à un hacker d'insérer du code qui sera interprété par l'analyseur cible, par exemple SQL.
+
+\paragraph{}
+Dans la cas particulier de l'injection SQL et du site DVWA, les requêtes SQL, imbriquées dans des scripts PHP qui récupèrent les saisies des utilisateurs, peuvent être détournées sur la base de la syntaxe du langage.
+
+
+
 
 \subsection{Exploitation}
+
+La base de données contient 5 utilisateurs identifiés par les entiers de 1 à 5.
+La mission proposée par le DVWA est de voler leurs mots de passe par injection SQL.
+
+
+\subsubsection{DVWA - level “low”}
+
+On règle la "DVWA security" sur low de manière à avoir un site web "damn vulnerable".
+On saisit dans le champ User Id, une simple apostrophe i.e. '. Le site retourne le message
+"\it {You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''''' at line 1}"
+
+\paragraph{}Cette simple apostrophe démontre que le site est vulnérable pour deux raisons : d'abord on sait que nos saisies sont interprétées directement par l'analyseur SQL ; elle ne sont pas filtrées. Ensuite parce que le site est "bavard".
+
+\begin{figure}[!h]
+	\begin{center}
+		\label{}
+		\includegraphics[scale=\scaledvwa]{images/sql/sqli1.png}
+		\caption{Les saisies incorrectes donnent lieu à un message d'erreur SQL qui informe le hacker potentiel de l'absence de protection contre les SQLi. D'autres informations importantes sont dévoilées comme le type de base de donnée, ici MariaDB, version libre de MySql rachetée par Oracle.}
+	\end{center}
+\end{figure}
+
+Un clic sur le bouton "View Source" affiche le code PHP de la page. On constate, en effet, qu'on peut saisir n'importe quoi dans le champ User Id, il sera transmis sans modification à la requête \$query via \$id.   
+
+\begin{figure}[!h]
+	\begin{center}
+		\label{}
+		\includegraphics[scale=0.8]{images/sql/code_low.png}
+	\end{center}
+\end{figure}
+
+%\floatname{type}{name}
+
+\begin{figure}[!h]
+	\begin{center}
+		\label{}
+		\includegraphics[scale=\scaledvwa]{images/sql/sqli_low.png}
+		\caption{Vol des mots de passe par l'injection SQLi sur site non protégé.}
+	\end{center}
+\end{figure}
+
+L'injection SQL suivante :
+{\color{red}
+
+\begin{verbatim}
+   ' UNION select password, last_name from users#
+\end{verbatim}
+}
+
+donne la requête suivante en remplaçant \$id dans le script PHP :
+{\color{red}
+\begin{verbatim}
+$query  = "SELECT first_name, last_name FROM users WHERE user_id = '' UNION 
+           SELECT password, last_name from users#   ';"; 
+\end{verbatim}
+}
+Elle indique donc qu'on effectue l'union au sens mathématique des éléments recueillis par les deux requêtes. Le premier SELECT donne l'ensemble vide, le second donne tous les password et noms de la table users. On obtient donc les mots de passe faussement associés au champ "First name". Ces mots de passe sont cryptés. On pourra utiliser des techniques de révélation par ingénieurie sociales, recherche internet, force brute, dictionnaires ou rainbow tables. On note que Smith est certainement aussi admin car ces deux noms d'utilisateurs ont le même hash donc le même mot de passe. Le hacker peut être confiant quant à la suite des opération car Smith ne semble pas être un adepte de la SSI. Le caractère \# en fin d'injection évite que PHP n'interprête la suite du code en particulier les caractères apostrophes et guillements qui donneraient une erreur SQL.
+
+NB : C'est une technique répandue que de forcer l'analyseur SQL à ignorer le reste de la requête, en utilisant le symbole commentaire SQL double tiret - - ou les symboles de commentaires PHP dièse \#, {/* */}, {//} pour assurer que ce qui suit l'injection ne sera pas interprété.  
+
+%\begin{lstlisting}[
+%language=SQL,
+%showspaces=false,
+%basicstyle=\ttfamily,
+%numbers=left,
+%numberstyle=\tiny,
+%commentstyle=\color{gray}
+%]
+%' UNION select password, last_name from users$
+%\end{lstlisting}
+
+
+
+
+
+\subsubsection{DVWA - level “medium”}
+
+
+\subsubsection{DVWA - level “high”}
 
 \subsection{Contre-mesure}
 
 
 \section{Injection SQL aveugle}
-Blind SQL Injection 
+Blind SQL injection ou BSQLi
 \subsection{Description}
 
 \subsection{Exploitation}
@@ -19,10 +104,11 @@ Blind SQL Injection
 \subsection{Contre-mesure}
 
 
-\section{Attaques XSS }
+\section{Attaques XSS }Reflected XSS
 
 \subsection{Description}
-
+ désignées au choix par les acronymes CSS ou XSS et qui seront
+Un site web qui fournit d'une part un service de recueille d'informations via des formulaires et d'autre part un service de publication sur le site de ces mêmes informations
 \subsection{Exploitation}
 
 \subsection{Contre-mesure}
