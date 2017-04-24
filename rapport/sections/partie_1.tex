@@ -1,65 +1,12 @@
 \newpage
 
-\section[Chiffrement de Merkle-Hellman]{Titre partie 1}
+\section{type d'attaque}
 
-Comme nous avons pu le voir en introduction de cette étude, le point de départ d'un système cryptographique est de trouver un problème dans la classe \textbf{NP} voire \textbf{NPC} avant de l'adapter aux exigences de chiffrement et déchiffrement des messages. Une fois ces étapes explicitées, nous verrons comment mettre en œuvre le chiffrement de Merkle-Hellman.
+\subsection{Description de la vulnérabilité}
 
+\subsection{Exploitation de la vulnérabilité}
 
-
-\subsection{Choix d'un problème difficile}
-\label{problem}
-
-
-
-
-
-\subsection{Adaptation du problème}
-
-
-
-\subsubsection{Fonction à sens unique}
-
-
-
-
-\subsubsection{Introduction d'une trappe}
-\label{trappe}
-
-
-
-\subsubsection{Perturbation}
-\label{clés}
-
-
-
-\subsubsection{Application au chiffrement à clé publique}
-
-Dans le cadre d'un système de chiffrement à clé publique, si Alice souhaite envoyer un message à Bob, cette première chiffre son message avec la clé publique de Bob qui le déchiffrera alors avec sa clé privée. Il est donc nécessaire de définir les éléments constitutifs de la clé publique et de la clé privée de Bob.
-
-\paragraph{Clé privée de Bob} Comme nous l'avons esquissé à la section \ref{clés}, Bob va tout d'abord générer une suite d'entiers super-croissante 
-
-
-
-\begin{itemize}
-\item dans le « pire cas » et par le caractère super-croissant de la clé privée, le dernier élément $s_n$ vaudra $D2^{n-1}$ ;
-\item on aura alors $p$ de l'ordre de grandeur de $D2^n$ à $FD2^n$ ;
-\item les éléments de la clé publique $T$ sont majorés par $p$ par le modulo et un bloc chiffré $y$ sera donc borné par $n \times FD2^n$.
-\end{itemize}
-
-
-
-
-Ce dernier bloc est chiffré comme les précédents. La figure \ref{chiffrement} illustre le chiffrement d'un flux d'entrée avec une clé de taille 11. Cette méthode de bourrage est simple et ne crée pas d'ambiguïté puisque l'on sait dans les deux cas de figure que l'information utile se termine exactement au bit qui précède le premier bit non nul, en partant de la fin. Néanmoins, certaines méthodes de \textit{padding} introduisent des vulnérabilités dans le code que la cryptanalyse pourra exploiter pour obtenir de l'information sur le message en clair. Il existe ainsi des méthodes standardisées de \textit{padding} aléatoire que nous n'aborderons pas dans notre étude\footnote{Utiliser du \textit{padding} aléatoire peut avoir l'avantage, y compris lorsque le message a déjà une taille multiple de celle d'un bloc, de produire des messages chiffrés différents pour un même message clair.}.
-
-\begin{figure}[!h]
-\begin{center}
-\hspace*{-0.8in}
-  \centering
- 
-  \caption{Chiffrement d'un flux avec une clé de taille $n = 11$}
-  \label{chiffrement}
-\end{center}
-\end{figure}
+\subsection{Contre-mesure}
 
 
 

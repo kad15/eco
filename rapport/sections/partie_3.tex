@@ -17,9 +17,6 @@ Dans la cas particulier de l'injection SQL et du site DVWA, les requêtes SQL, i
 La base de données contient 5 utilisateurs identifiés par les entiers de 1 à 5.
 La mission proposée par le DVWA est de voler leurs mots de passe par injection SQL.
 
-
-\subsubsection{DVWA - level “low”}
-
 On règle la "DVWA security" sur low de manière à avoir un site web "damn vulnerable".
 On saisit dans le champ User Id, une simple apostrophe i.e. '. Le site retourne le message
 "\it {You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''''' at line 1}"
@@ -43,7 +40,7 @@ Un clic sur le bouton "View Source" affiche le code PHP de la page. On constate,
 	\end{center}
 \end{figure}
 
-%\floatname{type}{name}
+
 
 \begin{figure}[!h]
 	\begin{center}
@@ -61,16 +58,21 @@ L'injection SQL suivante :
 \end{verbatim}
 }
 
+%  a' UNION SELECT password,last_name from users;-- -&Submit=Submit
+% url correspondante 
+%  ?id='+UNION+SELECT+password%2Clast_name+from+users%23&Submit=Submit#
+
 donne la requête suivante en remplaçant \$id dans le script PHP :
+
 {\color{red}
 \begin{verbatim}
 $query  = "SELECT first_name, last_name FROM users WHERE user_id = '' UNION 
            SELECT password, last_name from users#   ';"; 
 \end{verbatim}
 }
-Elle indique donc qu'on effectue l'union au sens mathématique des éléments recueillis par les deux requêtes. Le premier SELECT donne l'ensemble vide, le second donne tous les password et noms de la table users. On obtient donc les mots de passe faussement associés au champ "First name". Ces mots de passe sont cryptés. On pourra utiliser des techniques de révélation par ingénieurie sociales, recherche internet, force brute, dictionnaires ou rainbow tables. On note que Smith est certainement aussi admin car ces deux noms d'utilisateurs ont le même hash donc le même mot de passe. Le hacker peut être confiant quant à la suite des opération car Smith ne semble pas être un adepte de la SSI. Le caractère \# en fin d'injection évite que PHP n'interprête la suite du code en particulier les caractères apostrophes et guillements qui donneraient une erreur SQL.
+Elle indique donc qu'on effectue l'union au sens mathématique des éléments recueillis par les deux requêtes. Le premier SELECT donne l'ensemble vide, le second donne tous les mots de passe et noms de la table users. On obtient donc les mots de passe faussement associés au champ "First name". Ces mots de passe sont cryptés. On pourra utiliser des techniques de révélation par ingénieurie sociales, recherche internet, force brute, dictionnaires ou rainbow tables. L'outil John the ripper peut entrer en action. On note que Smith est certainement aussi admin car ces deux noms d'utilisateurs ont le même hash donc le même mot de passe. Le hacker peut être confiant quant à la suite des opération car Smith ne semble pas être un adepte de la SSI. Le caractère \# en fin d'injection évite que PHP n'interprête la suite du code en particulier les caractères apostrophes et guillements qui donneraient une erreur SQL.
 
-NB : C'est une technique répandue que de forcer l'analyseur SQL à ignorer le reste de la requête, en utilisant le symbole commentaire SQL double tiret - - ou les symboles de commentaires PHP dièse \#, {/* */}, {//} pour assurer que ce qui suit l'injection ne sera pas interprété.  
+NB : C'est une technique répandue que de forcer l'analyseur SQL à ignorer le reste de la requête, en utilisant le symbole commentaire SQL double tiret - - les symboles de commentaires PHP dièse \#, {/* */}, {//} pour assurer que ce qui suit l'injection ne sera pas interprété.  
 
 %\begin{lstlisting}[
 %language=SQL,
@@ -83,21 +85,57 @@ NB : C'est une technique répandue que de forcer l'analyseur SQL à ignorer le r
 %' UNION select password, last_name from users$
 %\end{lstlisting}
 
+\paragraph{}
+Un injection SQL peut aussi donner accès au système de fichier comme le montre l'injection ci-après :
+\begin{verbatim} [ ' UNION ALL SELECT load_file('/etc/passwd'),null # ] \end{verbatim}
+
+\begin{figure}[!h]
+	\begin{center}
+		\label{}
+		\includegraphics[scale=\scaledvwa]{images/sql/sqli_low2.png}
+		\caption{Récupération du fichier /etc/passwd via la commande load\_file : }
+	\end{center}
+\end{figure}
 
 
 
 
-\subsubsection{DVWA - level “medium”}
+% ?id=a UNION SELECT password,last_name from users;-- -&Submit=Submit
+% ?id=a %27UNION SELECT password,last_name from users#
 
 
-\subsubsection{DVWA - level “high”}
+Si l’on part à la recherche des méthodes et fonctions que l’on peut utiliser en PHP afin de se protéger de certains caractères, on peut croiser le chemin de la fonction PHP mysql\_real\_escape\_string. Celle-ci est souvent utilisée pour protéger les requêtes SQL intégrant des paramètres envoyés par l’utilisateur. Néanmoins nous allons voir que cette fonction peut être déjouée, c’est d’ailleurs le but dans ce niveau DVWA.
+
+Si l’on schématise, il faut donc faire passer des caractères comme des guillemets ou des apostrophes, sans inscrire dans l’URL les caractères en question. Un joyeux défi ! Pour ceux qui ont l’habitude de travailler sur les technos web, vous avez peut être déjà entendu parlé de l’encodage, et plus spécifiquement de l’encodage HTTP ou “HTML URL Encoding”. Pour ceux qui ne voient pas de quoi il s’agit, je vous conseille de faire un tour sur cette page : http://www.w3schools.com/tags/ref\_urlencode.asp
+
+L’HTML URL Encoding permet entre autre de faire passer au travers une URL des caractères spéciaux ou des lettres avec accent qui pourraient ne pas être interprétés correctement par les navigateurs ou les serveurs web. Ainsi, l’utilisation d’un encodage basé sur les caractères ASCII est utilisé (notamment la valeur “Hex” des lettres : http://table-ascii.com/ )
+
+\begin{verbatim}
+En utilisant l’HTTP URL Encoding, un espace devient un %20 dans l’URL, un  “!” devient un %21, un “%” un %25, etc.
+
+Cela nous permet donc ici de faire passer une guillemet ou une apostrophe de façon encodée pour ne pas qu’ils soient détectés et échappés par la fonction mysql_real_escape_string.
+\end{verbatim}
+
+
+
+
+%The medium level uses a form of SQL injection protection, with the function of "mysql_real_escape_string()". However due to the SQL query not having quotes around the parameter, this will not fully protect the query from being altered.
+%
+%The text box has been replaced with a pre-defined dropdown list and uses POST to submit the form.
+
+%Spoiler: ?id=a UNION SELECT 1,2;-- -&Submit=Submit.
+
+
 
 \subsection{Contre-mesure}
-
+\subsubsection{utilisation de }
 
 \section{Injection SQL aveugle}
 Blind SQL injection ou BSQLi
 \subsection{Description}
+When an attacker executes SQL injection attacks, sometimes the server responds with error messages from the database server complaining that the SQL query's syntax is incorrect. Blind SQL injection is identical to normal SQL Injection except that when an attacker attempts to exploit an application, rather then getting a useful error message, they get a generic page specified by the developer instead. This makes exploiting a potential SQL Injection attack more difficult but not impossible. An attacker can still steal data by asking a series of True and False questions through SQL statements, and monitoring how the web application response (valid entry retunred or 404 header set).
+
+"time based" injection method is often used when there is no visible feedback in how the page different in its response (hence its a blind attack). This means the attacker will wait to see how long the page takes to response back. If it takes longer than normal, their query was successful.
 
 \subsection{Exploitation}
 
@@ -172,6 +210,90 @@ Un site web qui fournit d'une part un service de recueille d'informations via de
 
 
 
-
-
-
+%
+%
+%@ARTICLE{1056964,
+%	author={A. Shamir},
+%	journal={IEEE Transactions on Information Theory},
+%	title={A polynomial-time algorithm for breaking the basic Merkle-Hellman cryptosystem},
+%	year={1984},
+%	volume={30},
+%	number={5},
+%	pages={699-704},
+%	keywords={Cryptography;Computer science;Graphics;Mathematics;Microcomputers;Polynomials;Protection;Public key;Public key cryptography;Security;Testing},
+%	doi={10.1109/TIT.1984.1056964},
+%	ISSN={0018-9448},
+%	month={Sep},}
+%
+%
+%@BOOK{MARTIN2004,
+%	title = {Codage, cryptologie et applications},
+%	publisher = {Presses polytechniques et universitaires romandes},
+%	year = {2014},
+%	author = {Martin, Bruno}
+%}
+%
+%@Book{GJ1979,
+%	author = "Michael R. Garey and David S. Johnson",
+%	title = "{Computers and Intractability, A Guide to the Theory of {NP}-Completeness}",
+%	publisher = "W.H. Freeman and Company",
+%	year = 1979,
+%	address = "New York"
+%}
+%
+%@book{opac,
+%	title = "Handbook of Applied Cryptography",
+%	author = "Alfred J. Menezes and Paul C. Van Oorschot and Scott A. Vanstone",
+%	publisher = "CRC Press",
+%	address = "Boca Raton, London, New York",
+%	url = "http://opac.inria.fr/record=b1092394",
+%	isbn = "0-8493-8523-7",
+%	year = 1996,
+%	note = {\url{http://cacr.uwaterloo.ca/hac/}}
+%}
+%
+%@ARTICLE{DEROFF,
+%	author={J. Deroff and R. Goyat},
+%	title={Le problème du sac à dos en cryptographie},
+%	year={2007},
+%	note = {\url{http://j.deroff.free.fr/rapportter.pdf}}
+%}
+%
+%@Book{stinson1996,
+%	author =       {Stinson, Douglas},
+%	title =        {{Cryptographie -- Théorie et pratique}},
+%	publisher =    {International Thomson Publishing},
+%	year =         {1996},
+%	note =         {Traduction de Serge Vaudenay},
+%}
+%
+%@ARTICLE{COSTER,
+%	author={Coster, Matthijs J. and Joux, Antoine  and La Macchia, Brian A. and Odlyzko, Andrew M. and Schnorr, Claus-Peter and Stern, Jacques},
+%	title={Improved low-density subset sum algorithms},
+%	journal={computational complexity},
+%	year={1992},
+%	volume={2},
+%	number={2},
+%	pages={111-128},
+%	mounth={June},
+%	note = {\url{http://www.di.ens.fr/~fouque/ens-rennes/sac-LLL.pdf}}
+%}
+%
+%@article{Merkle,
+%	author = {Merkle, R. and Hellman, M.},
+%	title = {Hiding Information and Signatures in Trapdoor Knapsacks},
+%	journal = {IEEE Trans. Inf. Theor.},
+%	issue_date = {1978},
+%	volume = {24},
+%	number = {5},
+%	month = {Sep},
+%	year = {1978},
+%	issn = {0018-9448},
+%	pages = {525--530},
+%	numpages = {6},
+%	url = {http://dx.doi.org/10.1109/TIT.1978.1055927},
+%	doi = {10.1109/TIT.1978.1055927},
+%	acmid = {2269393},
+%	publisher = {IEEE Press},
+%	address = {Piscataway, NJ, USA},
+%} 

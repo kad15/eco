@@ -1,4 +1,9 @@
-\documentclass[a4paper,10pt]{article}
+\documentclass[a4paper,12pt]{article}
+
+
+% ajout pour \justify installer le package en cas d'erreur signalée
+\usepackage[document]{ragged2e}
+
 \usepackage[utf8x]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[frenchb]{babel} % If you write in French
@@ -127,8 +132,8 @@
 
 \newpage
 \appendix
-\include{annexes/annexe_A}
-\include{annexes/annexe_B}
+%\include{annexes/annexe_A}
+%\include{annexes/annexe_B}
 
 \newpage
 \nocite{*}  %affiche toutes les entrées du bib même celles qui ne sont pas citées.
