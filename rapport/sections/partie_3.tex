@@ -109,17 +109,8 @@ Un injection SQL peut aussi donner accès au système de fichier comme le montre
 % ?id=a %27UNION SELECT password,last_name from users#
 
 
-Si l’on part à la recherche des méthodes et fonctions que l’on peut utiliser en PHP afin de se protéger de certains caractères, on peut croiser le chemin de la fonction PHP mysql\_real\_escape\_string. Celle-ci est souvent utilisée pour protéger les requêtes SQL intégrant des paramètres envoyés par l’utilisateur. Néanmoins nous allons voir que cette fonction peut être déjouée, c’est d’ailleurs le but dans ce niveau DVWA.
 
-Si l’on schématise, il faut donc faire passer des caractères comme des guillemets ou des apostrophes, sans inscrire dans l’URL les caractères en question. Un joyeux défi ! Pour ceux qui ont l’habitude de travailler sur les technos web, vous avez peut être déjà entendu parlé de l’encodage, et plus spécifiquement de l’encodage HTTP ou “HTML URL Encoding”. Pour ceux qui ne voient pas de quoi il s’agit, je vous conseille de faire un tour sur cette page : http://www.w3schools.com/tags/ref\_urlencode.asp
 
-L’HTML URL Encoding permet entre autre de faire passer au travers une URL des caractères spéciaux ou des lettres avec accent qui pourraient ne pas être interprétés correctement par les navigateurs ou les serveurs web. Ainsi, l’utilisation d’un encodage basé sur les caractères ASCII est utilisé (notamment la valeur “Hex” des lettres : http://table-ascii.com/ )
-
-\begin{verbatim}
-En utilisant l’HTTP URL Encoding, un espace devient un %20 dans l’URL, un  “!” devient un %21, un “%” un %25, etc.
-
-Cela nous permet donc ici de faire passer une guillemet ou une apostrophe de façon encodée pour ne pas qu’ils soient détectés et échappés par la fonction mysql_real_escape_string.
-\end{verbatim}
 
 
 \subsubsection{DVWA - Security level "Medium" et "High"}
@@ -140,14 +131,25 @@ Pour se prémunir des injections SQL, on peut appliquer les principes suivants :
 	la présence de caractères spéciaux, 
 	\item Éviter les comptes sans mot de passe,
 	\item Ne pas afficher de messages d’erreur explicites affichant la requête ou une partie de la requête SQL,
-	\item Restreindre au minimum les privilèges des comptes utilisés,
 	\item Supprimer les comptes utilisateurs non utilisés, notamment les comptes par défaut,
 	\item Utiliser un firewall Applicatif de type mod\_security
     \item Désactiver l’option Load\_File.
 \end{itemize}
 
 
-Plus spécifiquement, il est possible d'utiliser des "requêtes préparées" comme dans l'exemple en PHP tiré de DVWA - level "impossible"; le code et les données sont alors entièrement séparées. Une référence web utile se trouve sur le site \href{https://openclassrooms.com/courses/administrez-vos-bases-de-donnees-avec-mysql/requetes-preparees}{requetes-preparees}.
+Sur le plan pratique, un premier niveau de protection consiste à vouloir utiliser un outil comme mysqli\_real\_escape\_string() qui "échappe" les caractères indésirables : apostrophes, guillemets. Cette technique utilisée par DVWA - Medium level reste cependant vulnérable.
+
+\begin{verbatim}
+En effet, en utilisant l’HTTP URL Encoding, un espace devient 
+un %20 dans l’URL, un  “!” devient un %21, une apostrophe %27, etc.
+Cela nous permet donc ici de faire passer une guillemet ou une 
+apostrophe de façon encodée pour ne pas qu’ils soient détectés 
+et échappés par la fonction mysql_real_escape_string.
+\end{verbatim}
+
+Plus efficace est l'utilisation des "prepared statement". DVWA, level "impossible", utilise la classe \href{https://secure.php.net/manual/fr/class.pdostatement.php}{PDOStatment} pour préparer les requêtes et ainsi séparer le code des données.  
+
+
 \begin{figure}[!h]
 	\begin{center}
 		\label{}
@@ -162,20 +164,7 @@ Plus spécifiquement, il est possible d'utiliser des "requêtes préparées" com
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
 
 
@@ -183,16 +172,46 @@ Plus spécifiquement, il est possible d'utiliser des "requêtes préparées" com
 
 \subsection{Description}
 
-Les injections SQL aveugles, ou "blind SQL" en anglais, qu'on peut nommer BSQLi,  sont des techniques utilisées lorsque le serveur n'est pas "bavard". Sur le plan du code PHP, il suffit de retirer la ligne de code suivante qui renvoie les erreurs SQL : 
+Les injections SQL aveugles, ou "blind SQL" en anglais, qu'on peut nommer BSQLi en abrégé,  sont des techniques utilisées lorsque le serveur n'est pas "bavard". Sur le plan du code PHP, il suffit de retirer la ligne de code suivante qui affiche dans une page html les erreurs SQL : 
 \begin{verbatim}
 or die('<pre>' . mysql_error() . '</pre>' );
 \end{verbatim} 
 
 
 
-\subsection{Exploitation}
 
+\subsection{Exploitation}
+Les attaques sur DVWA - level "low", se font progressivement. Elles nécessitent beaucoup plus de requêtes sur la base de donnée, ce qui pose un problème de discrétion pour l'attaquant. Une meilleure connaissance de SQL est aussi impérative. Ainsi, une attaque BSQLi manuelle effectuée sur le User ID de DVWA, visant à déterminer le nombre  de champs de la requête, en vue de faire une UNION, utilisera une injection "ORDER BY".
+
+\begin{verbatim}
+L'injection [ ' ORDER BY 1 # ], sans les crochets, ne renvoie rien,  par contre 
+[ ' ORDER BY 3 # ] affiche "Unknown column '3' in 'order clause' ". 
+La requête du script PHP utilise donc deux champs.
+\end{verbatim} 
+
+\begin{verbatim}
+Ensuite, des injections [ ' UNION SELECT password, last_name FROM xxxx # ]
+où xxxx désigne un nom de table évocant une liste d'utilisateurs ; on testera
+utilisateurs, users, user, etc
+\end{verbatim} 
+
+\begin{verbatim}
+Des injections [ ' UNION SELECT password, last_name FROM users 
+WHERE LENGTH(password) = longeur # ] avec longueur = 1, 2, 3, ... 
+vont permettre, itérativement, de connaître la taille du mot de passe.
+\end{verbatim} 
+
+\begin{verbatim}
+Des injections [ ' UNION SELECT password, last_name FROM users 
+WHERE LENGTH(password) = 8 AND SUBSTRING(password,1,1)='a' # ] 
+testent si le mot de passe commence par "a".
+\end{verbatim} 
 \subsection{Contre-mesure}
+
+On le voit ce type d'attaques peut devenir rapidement fastidieuses, voire impraticables. Une approche médiane consiste à écrire des scripts en python important des modules comme httplib et urllib.
+
+Enfin, des produits sur étagères comme Burp suite/sqlmap ou, mieux,   \href{www.itsecteam.com}{havij} permettent de s'attaquer aux niveaux "Low", "Medium" "High" de manière plus efficace. Havij est cependant un outil windows ; Sous fedora 26, on doit installer une machine virtuelle windows ;  l'utilisation de wine est quant à elle souvent hasardeuse.
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
 
 \section{Attaques XSS }Reflected XSS
