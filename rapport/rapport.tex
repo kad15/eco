@@ -1,8 +1,12 @@
 \documentclass[a4paper,12pt]{article}
 
 
-% ajout pour \justify installer le package en cas d'erreur signalée
+% package qui fournit \justify 
 \usepackage[document]{ragged2e}
+
+
+% césure exemple
+% \hyphenation{an-ti-cons-ti-tu-tion-nel
 
 \usepackage[utf8x]{inputenc}
 \usepackage[T1]{fontenc}
@@ -35,7 +39,6 @@
 \usepackage{chngcntr}
 \counterwithin*{footnote}{page}
 
-%\usepackage{minted}
 
 \usepackage[titletoc,toc,title,page]{appendix}
 \renewcommand{\appendixtocname}{Annexes}
@@ -112,6 +115,7 @@
 
 \begin{document}
 
+
 % pour factoriser l'échelle des figures 
 %utilisation scale=\scaledvwa au lieu de scale = 0.3 ... 
 \newcommand{\scaledvwa}{0.4} 
@@ -122,7 +126,7 @@
 \pagebreak
 
 \tableofcontents
-
+\justify
 \input{intro_conclusion/introduction}
 \input{sections/partie_1}
 \input{sections/partie_2}

@@ -4,12 +4,24 @@
 
 
 \subsection{Description}
+
+
+
+
 L'injection SQL, en anglais SQL  injection, ou SQLi en abrégé, est une des attaques les plus dangereuses. Comme pour le Cross Site Scripting présenté dans la suite de ce document, il s'agit ici de tirer parti de l'absence de filtrage des entrées utilisateurs. Cette absence de contrôles permet à un hacker d'insérer du code qui sera interprété par l'analyseur cible, par exemple SQL.
+
+
+https://xkcd.com/327/
 
 \paragraph{}
 Dans la cas particulier de l'injection SQL et du site DVWA, les requêtes SQL, imbriquées dans des scripts PHP qui récupèrent les saisies des utilisateurs, peuvent être détournées sur la base de la syntaxe du langage. 
 
-
+\begin{figure}[!h]
+	\begin{center}
+		\includegraphics[scale=1]{images/bd.png}
+		\caption{source : \url{https://xkcd.com/327/}}
+	\end{center}
+\end{figure}
 
 
 \subsection{Exploitation}
@@ -120,6 +132,8 @@ sqlmap -r ./toto.txt –dbs -D dvwa –dump all –os-shell
 
 
 \subsection{Contre-mesures}
+
+Pour limiter le risque d'injection, les requêtes doivent être paramétrées ; elles sont alors entièrement controlées par le programmeur qui sépare le code des données. 
 
 \begin{figure}[!h]
 	\begin{center}
