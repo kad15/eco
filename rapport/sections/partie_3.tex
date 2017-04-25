@@ -11,7 +11,7 @@
 L'injection SQL, en anglais SQL  injection, ou SQLi en abrégé, est une des attaques les plus dangereuses. Comme pour le Cross Site Scripting présenté dans la suite de ce document, il s'agit ici de tirer parti de l'absence de filtrage des entrées utilisateurs. Cette absence de contrôles permet à un hacker d'insérer du code qui sera interprété par l'analyseur cible, par exemple SQL.
 
 
-https://xkcd.com/327/
+
 
 \paragraph{}
 Dans la cas particulier de l'injection SQL et du site DVWA, les requêtes SQL, imbriquées dans des scripts PHP qui récupèrent les saisies des utilisateurs, peuvent être détournées sur la base de la syntaxe du langage. 
@@ -133,20 +133,29 @@ sqlmap -r ./toto.txt –dbs -D dvwa –dump all –os-shell
 
 \subsection{Contre-mesures}
 
-Pour limiter le risque d'injection, les requêtes doivent être paramétrées ; elles sont alors entièrement controlées par le programmeur qui sépare le code des données. 
+Un certain nombre de règles permettent de se prémunir des attaques par injection de commandes SQL :
+Pour se prémunir des injections SQL, on peut appliquer les principes suivants :
+ \begin{itemize}[font=\color{magenta} \Large, label=\ding{43}]
+	\item Vérifier le format des données saisies et notamment
+	la présence de caractères spéciaux, 
+	\item Éviter les comptes sans mot de passe,
+	\item Ne pas afficher de messages d’erreur explicites affichant la requête ou une partie de la requête SQL,
+	\item Restreindre au minimum les privilèges des comptes utilisés,
+	\item Supprimer les comptes utilisateurs non utilisés, notamment les comptes par défaut,
+	\item Utiliser un firewall Applicatif de type mod\_security
+    \item Désactiver l’option Load\_File.
+\end{itemize}
 
+
+Plus spécifiquement, il est possible d'utiliser des "requêtes préparées" comme dans l'exemple en PHP tiré de DVWA - level "impossible"; le code et les données sont alors entièrement séparées. Une référence web utile se trouve sur le site \href{https://openclassrooms.com/courses/administrez-vos-bases-de-donnees-avec-mysql/requetes-preparees}{requetes-preparees}.
 \begin{figure}[!h]
 	\begin{center}
 		\label{}
-		\includegraphics[scale=\scaledvwa]{images/sql/sqli_impossible.png}
-		\caption{Récupération du fichier /etc/passwd via la commande load\_file : }
+		\includegraphics[scale=1]{images/sql/sqli_impossible.png}
 	\end{center}
 \end{figure}
 
-The queries are now parameterized queries (rather than being dynamic). This means the query has been defined by the developer, and has distinguish which sections are code, and the rest is data.
 
-
-\subsubsection{utilisation de }
 
 
 
@@ -171,11 +180,15 @@ The queries are now parameterized queries (rather than being dynamic). This mean
 
 
 \section{Injection SQL aveugle}
-Blind SQL injection ou BSQLi
-\subsection{Description}
-When an attacker executes SQL injection attacks, sometimes the server responds with error messages from the database server complaining that the SQL query's syntax is incorrect. Blind SQL injection is identical to normal SQL Injection except that when an attacker attempts to exploit an application, rather then getting a useful error message, they get a generic page specified by the developer instead. This makes exploiting a potential SQL Injection attack more difficult but not impossible. An attacker can still steal data by asking a series of True and False questions through SQL statements, and monitoring how the web application response (valid entry retunred or 404 header set).
 
-"time based" injection method is often used when there is no visible feedback in how the page different in its response (hence its a blind attack). This means the attacker will wait to see how long the page takes to response back. If it takes longer than normal, their query was successful.
+\subsection{Description}
+
+Les injections SQL aveugles, ou "blind SQL" en anglais, qu'on peut nommer BSQLi,  sont des techniques utilisées lorsque le serveur n'est pas "bavard". Sur le plan du code PHP, il suffit de retirer la ligne de code suivante qui renvoie les erreurs SQL : 
+\begin{verbatim}
+or die('<pre>' . mysql_error() . '</pre>' );
+\end{verbatim} 
+
+
 
 \subsection{Exploitation}
 
@@ -200,52 +213,19 @@ Un site web qui fournit d'une part un service de recueille d'informations via de
 
 \subsection{Contre-mesure}
 
-%Stored and Reflected XSS Attacks
-%
-%XSS attacks can generally be categorized into two categories: stored and reflected. There is a third, much less well known type of XSS attack called DOM Based XSS that is discussed seperately here.
-%Stored XSS Attacks
-%
-%Stored attacks are those where the injected script is permanently stored on the target servers, such as in a database, in a message forum, visitor log, comment field, etc. The victim then retrieves the malicious script from the server when it requests the stored information. Stored XSS is also sometimes referred to as Persistent or Type-I XSS.
-%Reflected XSS Attacks
-%
-%Reflected attacks are those where the injected script is reflected off the web server, such as in an error message, search result, or any other response that includes some or all of the input sent to the server as part of the request. Reflected attacks are delivered to victims via another route, such as in an e-mail message, or on some other web site. When a user is tricked into clicking on a malicious link, submitting a specially crafted form, or even just browsing to a malicious site, the injected code travels to the vulnerable web site, which reflects the attack back to the user’s browser. The browser then executes the code because it came from a "trusted" server. Reflected XSS is also sometimes referred to as Non-Persistent or Type-II XSS.
-%Other Types of XSS Vulnerabilities
-%In addition to Stored and Reflected XSS, another type of XSS, DOM Based XSS was identified by Amit Klein in 2005. OWASP recommends the XSS categorization as described in the OWASP Article: Types of Cross-Site Scripting, which covers all these XSS terms, organizing them into a matrix of Stored vs. Reflected XSS and Server vs. Client XSS, where DOM Based XSS is a subset of Client XSS.
-%
-%XSS Attack Consequences
-%
-%
-%
-%The consequence of an XSS attack is the same regardless of whether it is stored or reflected (or DOM Based). The difference is in how the payload arrives at the server. Do not be fooled into thinking that a “read only” or “brochureware” site is not vulnerable to serious reflected XSS attacks. XSS can cause a variety of problems for the end user that range in severity from an annoyance to complete account compromise. The most severe XSS attacks involve disclosure of the user’s session cookie, allowing an attacker to hijack the user’s session and take over the account. Other damaging attacks include the disclosure of end user files, installation of Trojan horse programs, redirect the user to some other page or site, or modify presentation of content. An XSS vulnerability allowing an attacker to modify a press release or news item could affect a company’s stock price or lessen consumer confidence. An XSS vulnerability on a pharmaceutical site could allow an attacker to modify dosage information resulting in an overdose. For more information on these types of attacks see Content Spoofing.
-%How to Determine If You Are Vulnerable
-%XSS flaws can be difficult to identify and remove from a web application. The best way to find flaws is to perform a security review of the code and search for all places where input from an HTTP request could possibly make its way into the HTML output. Note that a variety of different HTML tags can be used to transmit a malicious JavaScript. Nessus, Nikto, and some other available tools can help scan a website for these flaws, but can only scratch the surface. If one part of a website is vulnerable, there is a high likelihood that there are other problems as well.
-%How to Protect Yourself
-%The primary defenses against XSS are described in the OWASP XSS Prevention Cheat Sheet.
-%
-%
-%
-%Also, it's crucial that you turn off HTTP TRACE support on all webservers. An attacker can steal cookie data via Javascript even when document.cookie is disabled or not supported on the client. This attack is mounted when a user posts a malicious script to a forum so when another user clicks the link, an asynchronous HTTP Trace call is triggered which collects the user's cookie information from the server, and then sends it over to another malicious server that collects the cookie information so the attacker can mount a session hijack attack. This is easily mitigated by removing support for HTTP TRACE on all webservers.
-%
-%The OWASP ESAPI project has produced a set of reusable security components in several languages, including validation and escaping routines to prevent parameter tampering and the injection of XSS attacks. In addition, the OWASP WebGoat Project training application has lessons on Cross-Site Scripting and data encoding.
 
 
-%
-%\begin{itemize}
-%\item dans le « pire cas » et par le caractère super-croissant de la clé privée, le dernier élément $s_n$ vaudra $D2^{n-1}$ ;
-%\item on aura alors $p$ de l'ordre de grandeur de $D2^n$ à $FD2^n$ ;
-%\item les éléments de la clé publique $T$ sont majorés par $p$ par le modulo et un bloc chiffré $y$ sera donc borné par $n \times FD2^n$.
-%\end{itemize}
 
-%
-%\begin{figure}[!h]
-%\begin{center}
-%\hspace*{-2in}
-%  \centering
-% 	\includegraphics[scale=0.4]{images/10_menaces.png}
-%  \caption{Chiffrement d'un flux avec une clé de taille $n = 11$}
-%  \label{chiffrement}
-%\end{center}
-%\end{figure}
+
+
+
+
+
+
+
+
+
+
 
 
 
