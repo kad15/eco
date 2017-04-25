@@ -4,15 +4,17 @@
 
 
 \subsection{Description}
-L'injection SQL, en anglais SQL  injection ou SQLi en abrégé, est une des attaques les plus dangereuses. Comme pour le Cross Site Scripting présenté dans la suite de ce document, il s'agit ici de tirer parti de l'absence de filtrage des entrées utilisateurs. Cette absence de contrôles permet à un hacker d'insérer du code qui sera interprété par l'analyseur cible, par exemple SQL.
+L'injection SQL, en anglais SQL  injection, ou SQLi en abrégé, est une des attaques les plus dangereuses. Comme pour le Cross Site Scripting présenté dans la suite de ce document, il s'agit ici de tirer parti de l'absence de filtrage des entrées utilisateurs. Cette absence de contrôles permet à un hacker d'insérer du code qui sera interprété par l'analyseur cible, par exemple SQL.
 
 \paragraph{}
-Dans la cas particulier de l'injection SQL et du site DVWA, les requêtes SQL, imbriquées dans des scripts PHP qui récupèrent les saisies des utilisateurs, peuvent être détournées sur la base de la syntaxe du langage.
+Dans la cas particulier de l'injection SQL et du site DVWA, les requêtes SQL, imbriquées dans des scripts PHP qui récupèrent les saisies des utilisateurs, peuvent être détournées sur la base de la syntaxe du langage. 
 
 
 
 
 \subsection{Exploitation}
+
+\subsubsection{DVWA - Security level "low"}
 
 La base de données contient 5 utilisateurs identifiés par les entiers de 1 à 5.
 La mission proposée par le DVWA est de voler leurs mots de passe par injection SQL.
@@ -74,16 +76,7 @@ Elle indique donc qu'on effectue l'union au sens mathématique des éléments re
 
 NB : C'est une technique répandue que de forcer l'analyseur SQL à ignorer le reste de la requête, en utilisant le symbole commentaire SQL double tiret - - les symboles de commentaires PHP dièse \#, {/* */}, {//} pour assurer que ce qui suit l'injection ne sera pas interprété.  
 
-%\begin{lstlisting}[
-%language=SQL,
-%showspaces=false,
-%basicstyle=\ttfamily,
-%numbers=left,
-%numberstyle=\tiny,
-%commentstyle=\color{gray}
-%]
-%' UNION select password, last_name from users$
-%\end{lstlisting}
+
 
 \paragraph{}
 Un injection SQL peut aussi donner accès au système de fichier comme le montre l'injection ci-après :
@@ -117,18 +110,51 @@ Cela nous permet donc ici de faire passer une guillemet ou une apostrophe de fa�
 \end{verbatim}
 
 
+\subsubsection{DVWA - Security level "Medium" et "High"}
+
+Pour récupérer les mots de passe lorsque l'on règle le niveau de sécurité de DVWA sur "haut" et "medium", on utilise une combinaison des outils "Burp suite" et "sqlmap" fournis par kali linux. Le navigateur doit être configuré en utilisant ce proxy Burp suite, à savoir 127.0.0.1:8080. Cela permet l'interception des requêtes POST qui est alors copiée dans un fichier toto.txt utilisé ensuite dans la commande.
+
+\begin{verbatim}
+sqlmap -r ./toto.txt –dbs -D dvwa –dump all –os-shell
+\end{verbatim}
 
 
-%The medium level uses a form of SQL injection protection, with the function of "mysql_real_escape_string()". However due to the SQL query not having quotes around the parameter, this will not fully protect the query from being altered.
-%
-%The text box has been replaced with a pre-defined dropdown list and uses POST to submit the form.
+\subsection{Contre-mesures}
 
-%Spoiler: ?id=a UNION SELECT 1,2;-- -&Submit=Submit.
+\begin{figure}[!h]
+	\begin{center}
+		\label{}
+		\includegraphics[scale=\scaledvwa]{images/sql/sqli_impossible.png}
+		\caption{Récupération du fichier /etc/passwd via la commande load\_file : }
+	\end{center}
+\end{figure}
+
+The queries are now parameterized queries (rather than being dynamic). This means the query has been defined by the developer, and has distinguish which sections are code, and the rest is data.
 
 
-
-\subsection{Contre-mesure}
 \subsubsection{utilisation de }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \section{Injection SQL aveugle}
 Blind SQL injection ou BSQLi
