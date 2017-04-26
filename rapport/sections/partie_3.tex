@@ -214,20 +214,85 @@ Enfin, des produits sur étagères comme Burp suite/sqlmap ou, mieux,   \href{ww
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
 
-\section{Attaques XSS }Reflected XSS
+\section{Attaques Reflected XSS (non persistante)}
 
 \subsection{Description}
- désignées au choix par les acronymes CSS ou XSS et qui seront
-Un site web qui fournit d'une part un service de recueille d'informations via des formulaires et d'autre part un service de publication sur le site de ces mêmes informations
+Le Cross Site Scripting fait partie de la catégorie des attaques par injection au même titre que le SQLi décrit plus haut. Le Cross Site Scripting est désigné par l'acronyme XSS car CSS était déjà utilisé. Le terme XSS est en fait mal choisi car l'attaque ne concerne pas forcément plusieurs sites. En outre, un cracker peut entreprendre des attaques XSS en JavaScript mai aussi à l'aide d’autres langages ou sans utiliser les balises <script></script>.
+
+\paragraph{} Pourquoi cette dénomination ? Parce que l'un des objectifs de l'attaque est d’exécuter un script permettant de "faire traverser" des données, c'est à dire transmettre des données, to cross en anglais, depuis un site vers un autre. 
+
+\begin{figure}[!h]
+	\begin{center} 
+		\includegraphics[scale=\scalekad]{images/xss/reflected_xss}
+		\caption{Reflected XSS}
+		\label{reflected_xss}  % label apres le caption pour éviter pb de num
+	\end{center}
+\end{figure}
+
+
+\paragraph{} Pourquoi l'attaque est-elle qualifiée de réfléchie ? Parce que, l'attaque est comme réfléchie par le serveur web ; comme l'indique la figure~\ref{reflected_xss}, l'opération comprend,en effet, 5 étapes :
+
+
+\begin{enumerate}
+	\item   Envoi d'un lien piégé par mail. 
+	\item La victime clique sur le lien.
+	\item Le serveur répond en envoyant la page demandée avec le code du hacker injecté dans l'URL. Si le site est vulnérable, c'est à dire si les données sont incluses telles quelles dans la page de résultat, donc sans encodage des symboles propres à HTML, le code sera interprétable par le navigateur de la victime.
+	\item Le navigateur de la victime exécute le code de la page car il est censé provenir d'un serveur de confiance. 
+	\item Envoi des données de la victime  vers le hacker : cookies, ...
+\end{enumerate}
+ 
+
+
+\paragraph{} Pourquoi la non persistance ? Parce que le script malicieux n'est pas stocké sur le serveur web, dans un fichier, une base de donnée, un message de forum.
+
+\paragraph{} Parmi le conséquences possibles, on peut citer :
+ 
+
+\begin{enumerate}
+	\item Le vol de cookies, de session, de compte, de fichiers. 
+	\item L'installation de cheval de Troye.
+	\item Le défaçage de site.
+\end{enumerate}
+
+
+
 \subsection{Exploitation}
+
+
+
 
 \subsection{Contre-mesure}
 
+Côté client, pour se prémunir des injections XSS, il est possible de configurer le navigateur de manière à empêcher l'exécution des langages de scripts mais de nombreux sites ne pourront pas fonctionner.
 
-\section{Attaques XSS enregistrées }
+Du côté serveur, , on peut appliquer les principes suivants :
+\begin{itemize}[font=\color{magenta} \Large, label=\ding{43}]
+	\item Encoder les données utilisateurs affichées en remplaçant les caractères spéciaux par leurs équivalents HTML. En PHP, utiliser les fonctions htmlentities() ou htmlspecialchars().​ 
+	\item Installer un pare-feux applicatif capable de filtrer les flux HTTP afin de détecter les requêtes suspectes.
+
+\end{itemize}
+
+
+
+
+Par ailleurs, il est également possible de se protéger des failles de type XSS à l'aide d'équipements réseaux dédiés tels que les 
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+\section{Stored XSS (persistante)  }
+
+Dans ce type d'attaque, les données fournies par l'utilisateur sont enregistrées sur le serveur pour ensuite être réaffichées sans que les caractères spéciaux HTML aient été encodés. Ce type de site web sont dits vulnérables aux attaques XSS. On parle improprement de faille XSS en confondant l'attaque et la vulnérabilité. Une seule injection permet d'atteindre un grand nombre de victimes sans avoir à recourir à l'ingénierie sociale. Il est donc primordial que toutes les données reçues par l'application web doivent être encodées. 
+
+
 
 \subsection{Description}
-
+\begin{figure}[!h]
+	\begin{center}
+		\label{}
+		\includegraphics[scale=\scalekad]{images/xss/stored_xss}
+		\caption{Récupération du fichier /etc/passwd via la commande load\_file : }
+	\end{center}
+\end{figure}
 \subsection{Exploitation}
 
 \subsection{Contre-mesure}
