@@ -159,13 +159,7 @@ Plus efficace est l'utilisation des "prepared statement". DVWA, level "impossibl
 
 
 
-
-
-
-
-
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
-
 
 
 \section{Injection SQL aveugle}
@@ -230,7 +224,7 @@ Le Cross Site Scripting fait partie de la catégorie des attaques par injection 
 \end{figure}
 
 
-\paragraph{} Pourquoi l'attaque est-elle qualifiée de réfléchie ? Parce que, l'attaque est comme réfléchie par le serveur web ; comme l'indique la figure~\ref{reflected_xss}, l'opération comprend,en effet, 5 étapes :
+\paragraph{} Pourquoi l'attaque est-elle qualifiée de réfléchie ? Parce que l'attaque est comme réfléchie par le serveur web. La figure~\ref{reflected_xss} indique que l'opération comprend 5 étapes :
 
 
 \begin{enumerate}
@@ -243,14 +237,14 @@ Le Cross Site Scripting fait partie de la catégorie des attaques par injection 
  
 
 
-\paragraph{} Pourquoi la non persistance ? Parce que le script malicieux n'est pas stocké sur le serveur web, dans un fichier, une base de donnée, un message de forum.
+\paragraph{} Pourquoi la non persistance ? Parce que le script malicieux n'est pas stocké sur le serveur web que ce soit dans un fichier, une base de donnée ou un message de forum.
 
 \paragraph{} Parmi le conséquences possibles, on peut citer :
  
 
 \begin{enumerate}
 	\item Le vol de cookies, de session, de compte, de fichiers. 
-	\item L'installation de cheval de Troye.
+	\item L'installation de chevaux de Troye.
 	\item Le défaçage de site.
 \end{enumerate}
 
@@ -258,14 +252,15 @@ Le Cross Site Scripting fait partie de la catégorie des attaques par injection 
 
 \subsection{Exploitation}
 
-
-
+\begin{verbatim}
+<script>alert('coucou')</script>
+\end{verbatim}
 
 \subsection{Contre-mesure}
 
 Côté client, pour se prémunir des injections XSS, il est possible de configurer le navigateur de manière à empêcher l'exécution des langages de scripts mais de nombreux sites ne pourront pas fonctionner.
 
-Du côté serveur, , on peut appliquer les principes suivants :
+Du côté serveur, on peut appliquer les principes suivants :
 \begin{itemize}[font=\color{magenta} \Large, label=\ding{43}]
 	\item Encoder les données utilisateurs affichées en remplaçant les caractères spéciaux par leurs équivalents HTML. En PHP, utiliser les fonctions htmlentities() ou htmlspecialchars().​ 
 	\item Installer un pare-feux applicatif capable de filtrer les flux HTTP afin de détecter les requêtes suspectes.
@@ -274,14 +269,11 @@ Du côté serveur, , on peut appliquer les principes suivants :
 
 
 
-
-Par ailleurs, il est également possible de se protéger des failles de type XSS à l'aide d'équipements réseaux dédiés tels que les 
-
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
 \section{Stored XSS (persistante)  }
 
-Dans ce type d'attaque, les données fournies par l'utilisateur sont enregistrées sur le serveur pour ensuite être réaffichées sans que les caractères spéciaux HTML aient été encodés. Ce type de site web sont dits vulnérables aux attaques XSS. On parle improprement de faille XSS en confondant l'attaque et la vulnérabilité. Une seule injection permet d'atteindre un grand nombre de victimes sans avoir à recourir à l'ingénierie sociale. Il est donc primordial que toutes les données reçues par l'application web doivent être encodées. 
+Dans ce type d'attaque, les données fournies par l'utilisateur sont enregistrées sur le serveur pour ensuite être réaffichées sans que les caractères spéciaux HTML aient été encodés. Ce type de site web sont dits vulnérables aux attaques XSS. On parle improprement de faille XSS en confondant l'attaque et la vulnérabilité. Une seule injection permet d'atteindre un grand nombre de victimes sans avoir à recourir à l'ingénierie sociale. Il est donc primordial que toutes les données reçues par l'application web soient encodées. 
 
 
 
@@ -300,104 +292,3 @@ Dans ce type d'attaque, les données fournies par l'utilisateur sont enregistré
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-%
-%
-%@ARTICLE{1056964,
-%	author={A. Shamir},
-%	journal={IEEE Transactions on Information Theory},
-%	title={A polynomial-time algorithm for breaking the basic Merkle-Hellman cryptosystem},
-%	year={1984},
-%	volume={30},
-%	number={5},
-%	pages={699-704},
-%	keywords={Cryptography;Computer science;Graphics;Mathematics;Microcomputers;Polynomials;Protection;Public key;Public key cryptography;Security;Testing},
-%	doi={10.1109/TIT.1984.1056964},
-%	ISSN={0018-9448},
-%	month={Sep},}
-%
-%
-%@BOOK{MARTIN2004,
-%	title = {Codage, cryptologie et applications},
-%	publisher = {Presses polytechniques et universitaires romandes},
-%	year = {2014},
-%	author = {Martin, Bruno}
-%}
-%
-%@Book{GJ1979,
-%	author = "Michael R. Garey and David S. Johnson",
-%	title = "{Computers and Intractability, A Guide to the Theory of {NP}-Completeness}",
-%	publisher = "W.H. Freeman and Company",
-%	year = 1979,
-%	address = "New York"
-%}
-%
-%@book{opac,
-%	title = "Handbook of Applied Cryptography",
-%	author = "Alfred J. Menezes and Paul C. Van Oorschot and Scott A. Vanstone",
-%	publisher = "CRC Press",
-%	address = "Boca Raton, London, New York",
-%	url = "http://opac.inria.fr/record=b1092394",
-%	isbn = "0-8493-8523-7",
-%	year = 1996,
-%	note = {\url{http://cacr.uwaterloo.ca/hac/}}
-%}
-%
-%@ARTICLE{DEROFF,
-%	author={J. Deroff and R. Goyat},
-%	title={Le problème du sac à dos en cryptographie},
-%	year={2007},
-%	note = {\url{http://j.deroff.free.fr/rapportter.pdf}}
-%}
-%
-%@Book{stinson1996,
-%	author =       {Stinson, Douglas},
-%	title =        {{Cryptographie -- Théorie et pratique}},
-%	publisher =    {International Thomson Publishing},
-%	year =         {1996},
-%	note =         {Traduction de Serge Vaudenay},
-%}
-%
-%@ARTICLE{COSTER,
-%	author={Coster, Matthijs J. and Joux, Antoine  and La Macchia, Brian A. and Odlyzko, Andrew M. and Schnorr, Claus-Peter and Stern, Jacques},
-%	title={Improved low-density subset sum algorithms},
-%	journal={computational complexity},
-%	year={1992},
-%	volume={2},
-%	number={2},
-%	pages={111-128},
-%	mounth={June},
-%	note = {\url{http://www.di.ens.fr/~fouque/ens-rennes/sac-LLL.pdf}}
-%}
-%
-%@article{Merkle,
-%	author = {Merkle, R. and Hellman, M.},
-%	title = {Hiding Information and Signatures in Trapdoor Knapsacks},
-%	journal = {IEEE Trans. Inf. Theor.},
-%	issue_date = {1978},
-%	volume = {24},
-%	number = {5},
-%	month = {Sep},
-%	year = {1978},
-%	issn = {0018-9448},
-%	pages = {525--530},
-%	numpages = {6},
-%	url = {http://dx.doi.org/10.1109/TIT.1978.1055927},
-%	doi = {10.1109/TIT.1978.1055927},
-%	acmid = {2269393},
-%	publisher = {IEEE Press},
-%	address = {Piscataway, NJ, USA},
-%} 
