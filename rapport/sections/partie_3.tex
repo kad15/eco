@@ -260,13 +260,31 @@ Pour vérifier la vulnérabilité d'un site aux attaques XSS, il suffit de s'ass
 
 
 
-\begin{figure}[!h]
+\begin{figure}[H]
 	\begin{center}
 		\label{}
 		\includegraphics[scale=\scaledvwa]{images/xss/hack1.png}
 		\caption{Exemple d'injections html montrant la vulnérabilité de DVWA-Low : <img src=http://192.168.1.8/hacked.jpeg />} 
 	\end{center}
 \end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=\scaledvwa]{images/xss/hack2.png}
+		\caption{Exemple d'injections javascript montrant la vulnérabilité de DVWA-Low : <script>alert('coucou')</script>} 
+		\label{hack2}
+	\end{center}
+\end{figure}
+
+\subsubsection{DVWA - Security level "Medium"}
+Au niveau Medium, la protection utilisée utilise la fonction  str\_replace()
+qui remplace <script> par le vide.  
+\begin{verbatim}
+ $name = str_replace( '<script>', '', $_GET[ 'name' ] ); 
+\end{verbatim}
+Cette protection est facilement contournable en injectant le code
+<scr<script>ipt>alert('coucou')</script> ou du code html <body onload=alert("coucou")>. Ce qui donne le même résultat
+que précédemment illustré par la figure~\ref{hack2}). 
 
 
 \begin{verbatim}
@@ -276,7 +294,7 @@ Pour vérifier la vulnérabilité d'un site aux attaques XSS, il suffit de s'ass
 \subsection{Contre-mesure}
 
 Côté client, pour se prémunir des injections XSS, il est possible de configurer le navigateur de manière à empêcher l'exécution des langages de scripts mais de nombreux sites dynamiques ne pourront pas fonctionner correctement. C'est donc bien la vulnérabilité du serveur web qu'il faut corriger.
-
+{
 Du côté serveur, on peut appliquer les principes suivants :
 \begin{itemize}[font=\color{magenta} \Large, label=\ding{43}]
 	\item Encoder les données utilisateurs affichées en remplaçant les caractères spéciaux par leurs équivalents HTML. En PHP, utiliser les fonctions htmlentities() ou htmlspecialchars().​ 
@@ -284,10 +302,10 @@ Du côté serveur, on peut appliquer les principes suivants :
 
 \end{itemize}
 
-
+}
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
-
+\newpage
 \section{Stored XSS (persistante)  }
 
 
