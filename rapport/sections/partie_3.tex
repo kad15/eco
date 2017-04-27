@@ -18,7 +18,7 @@ Dans la cas particulier de l'injection SQL et du site DVWA, les requêtes SQL, i
 
 \begin{figure}[!h]
 	\begin{center}
-		\includegraphics[scale=1]{images/bd.png}
+		\includegraphics[scale=0.72]{images/bd.png}
 		\caption{source : \url{https://xkcd.com/327/}}
 	\end{center}
 \end{figure}
@@ -292,12 +292,23 @@ Au niveau High, le filtrage est effectué par des expressions rationnelles.
 Cette technique n'est pas très sure non plus puisque le code html suivant
 <img src=x onError=alert('coucou')>, contourne la contre-mesure.
 
-htmlspecialchars
+
+\subsubsection{DVWA - Security level "Impossible"}
+
+Ce niveau utilise notamment la fonction htmlspecialchars() qui assure le transcodage html ; cette solution permet d'assurer une meilleure protection du site web.
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=\scaledvwa]{images/xss/hack3.png}
+		\caption{Exemple d'injection javascript montrant la non vulnérabilité de DVWA-Impossible : <img src=x onError=alert('coucou')>} 
+		\label{hack3}
+	\end{center}
+\end{figure}
 
 \subsection{Contre-mesure}
 
-Côté client, pour se prémunir des injections XSS, il est possible de configurer le navigateur de manière à empêcher l'exécution des langages de scripts mais de nombreux sites dynamiques ne pourront pas fonctionner correctement. C'est donc bien la vulnérabilité du serveur web qu'il faut corriger.
-{
+Côté client, pour se prémunir des injections XSS, il est possible de configurer le navigateur de manière à empêcher l'exécution des langages de scripts mais alors de nombreux sites dynamiques ne pourront pas fonctionner correctement. C'est donc bien la vulnérabilité du serveur web qu'il faut corriger.
+
+
 Du côté serveur, on peut appliquer les principes suivants :
 \begin{itemize}[font=\color{magenta} \Large, label=\ding{43}]
 	\item Encoder les données utilisateurs affichées en remplaçant les caractères spéciaux par leurs équivalents HTML. En PHP, utiliser les fonctions htmlentities() ou htmlspecialchars().​ 
@@ -305,18 +316,16 @@ Du côté serveur, on peut appliquer les principes suivants :
 
 \end{itemize}
 
-}
+
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 \newpage
 \section{Stored XSS (persistante)  }
 
 
-
-
 \subsection{Description}
 
-Dans ce type d'attaque avec persistance, les données fournies par l'utilisateur sont enregistrées sur le serveur pour ensuite être réaffichées sans que les caractères spéciaux HTML aient été encodés. Ce type de site web sont dits vulnérables aux attaques XSS. On parle improprement de faille XSS en confondant l'attaque et la vulnérabilité. Une seule injection permet d'atteindre un grand nombre de victimes sans avoir à recourir à l'ingénierie sociale. Il est donc primordial que toutes les données reçues par l'application web soient encodées.
+Dans ce type d'attaque, les données fournies par l'utilisateur sont enregistrées sur le serveur et non simplement transmis dans une URL. Les sites vulnérables vis à vis des ces atttaques XSS présentent un faille appelée parfois “Faille du livre d’or“. Cette faille existe dès lors que le site web fait confiance aux utilisateurs. Une seule injection permet d'atteindre un grand nombre de victimes sans avoir à recourir à l'ingénierie sociale nécessaire lors des attaques reflected XSS. . Il est donc primordial que toutes les données reçues par l'application web soient encodées.
 
 
 \paragraph{Exemple de stored XSS :} 
@@ -336,17 +345,17 @@ La figure~\ref{stored_xss} illustre ce principe dans le cas général.
 \end{figure}
 
 
-
-
-
-
-
-
-
-
-
-
 \subsection{Exploitation}
+Les vulnérabilités aux attaques reflected XSS et stored XSS sont les mêmes. Les injections précédentes, montrant la vulnérabilité des niveaux Low, Medium et High,
+fonctionnent de la même manière. La différence se situe au niveau de la persistance de l'injection. Entre chaque niveau, on doit ré-initialiser la base de données. 
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=\scaledvwa]{images/xss/hack4.png}
+		\caption{Page de ré-initialistation de la base de donnée} 
+		\label{hack4}
+	\end{center}
+\end{figure}
+
 
 \subsection{Contre-mesure}
 
