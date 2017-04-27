@@ -284,12 +284,15 @@ qui remplace <script> par le vide.
 \end{verbatim}
 Cette protection est facilement contournable en injectant le code
 <scr<script>ipt>alert('coucou')</script> ou du code html <body onload=alert("coucou")>. Ce qui donne le même résultat
-que précédemment illustré par la figure~\ref{hack2}). 
+que précédemment illustré par la figure~\ref{hack2}. 
 
+\subsubsection{DVWA - Security level "High"}
 
-\begin{verbatim}
+Au niveau High, le filtrage est effectué par des expressions rationnelles.
+Cette technique n'est pas très sure non plus puisque le code html suivant
+<img src=x onError=alert('coucou')>, contourne la contre-mesure.
 
-\end{verbatim}
+htmlspecialchars
 
 \subsection{Contre-mesure}
 
