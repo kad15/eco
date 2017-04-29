@@ -71,22 +71,41 @@
     citecolor=purple,       % color of links to bibliography
     urlcolor=blue          % color of external links
 }
-\usepackage{listings}
-\definecolor{darkgreen}{rgb}{0, 0.6, 0}
-\lstset{language = caml, frameround = fttt}
 
-\lstset{upquote=true,
-        columns=flexible,
-        keepspaces=true,
-        breaklines,
-        breakindent=0pt,
-        basicstyle=\ttfamily,
-        breaklines=true,
-        keywordstyle=\color{red},
-        commentstyle=\color{darkgreen},
-        tabsize=2,
-        escapebegin=\color{gray},
-}
+\usepackage{listings}
+
+\definecolor{dkgreen}{rgb}{0,.6,0}
+\definecolor{dkblue}{rgb}{0,0,.6}
+\definecolor{dkyellow}{cmyk}{0,0,.8,.3}
+
+\lstset{
+  language        = php,
+  basicstyle      = \small\ttfamily,
+  keywordstyle    = \color{dkblue},
+  stringstyle     = \color{red},
+  identifierstyle = \color{dkgreen},
+  commentstyle    = \color{gray},
+  emph            =[1]{php},
+  emphstyle       =[1]\color{black},
+  emph            =[2]{if,and,or,else},
+  emphstyle       =[2]\color{dkyellow}}
+
+%\usepackage{listings}
+%\definecolor{darkgreen}{rgb}{0, 0.6, 0}
+%\lstset{language = caml, frameround = fttt}
+%
+%\lstset{upquote=true,
+%        columns=flexible,
+%        keepspaces=true,
+%        breaklines,
+%        breakindent=0pt,
+%        basicstyle=\ttfamily,
+%        breaklines=true,
+%        keywordstyle=\color{red},
+%        commentstyle=\color{darkgreen},
+%        tabsize=2,
+%        escapebegin=\color{gray},
+%}
 \usepackage{blindtext}
 \usepackage{enumitem} % pour changer les puces dans \itemize
 \title{Distribution trouée Damn Vulnerable Web Application}
