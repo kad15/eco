@@ -320,7 +320,7 @@ On voit donc que le chargement de fichier sur un serveur web est loin d'être an
 
 \subsection{Exploitation de la vulnérabilité}
 
-Afin d'illustrer la vulnérabilité d'un chargement de fichier non sécurisé, la page "File Upload" accessible depuis le menu de gauche de DVWA propose une interface permettant le chargement sur le serveur d'un fichier local. Le texte du formulaire nous indique qu'une image est attendue mais nous allons voir que d'autres types de fichiers peuvent également être acceptés.
+Afin d'illustrer la vulnérabilité d'un chargement de fichier non sécurisé, la page "\textit{File Upload}" accessible depuis le menu de gauche de DVWA propose une interface permettant le chargement sur le serveur d'un fichier local. Le texte du formulaire nous indique qu'une image est attendue mais nous allons voir que d'autres types de fichiers peuvent également être acceptés.
 
 \subsubsection{Chargement du fichier}
 
@@ -532,7 +532,17 @@ L'ensemble des tests effectués à ce niveau de sécurité permettent donc de se
 
 De nombreux robots (ou \textit{bots}) agissent de façon automatique sur internet afin, principalement, d'envoyer des messages, qu'ils soient publicitaires ou malveillants. La plupart des spams échangés sur internet sont d'ailleurs le fait de tels robots. Il est donc nécessaire, dans certaines applications web permettant notamment l'envoi de messages, de vérifier s'il s'agit d'un humain ou d'une machine qui souhaite effectuer cette opération.
 
-C'est dans ce but que les contrôles CAPTCHA ont été créés. En effet, CAPTCHA est l'acronyme de \textit{Completely Automated Public Turing test to tell Computers and Human Apart}. Comme son nom l'indique, ce test est censé permettre de confirmer ou non la présence d'un humain derrière la machine souhaitant réaliser une certaine opération. Ce test peut prendre plusieurs formes : reconnaissance de caractères déformés ou encore reconnaissance d'éléments dans un puzzle.
+C'est dans ce but que les contrôles CAPTCHA ont été créés. En effet, CAPTCHA est l'acronyme de \textit{Completely Automated Public Turing test to tell Computers and Human Apart}. Comme son nom l'indique, ce test est censé permettre de confirmer ou non la présence d'un humain derrière la machine souhaitant réaliser une certaine opération. Ce test peut prendre plusieurs formes : reconnaissance de caractères déformés (cf. figure \ref{captcha1} ou encore reconnaissance d'éléments dans un puzzle.
+
+\begin{figure}[!h]
+\begin{center}
+
+\includegraphics[scale=0.3]{images/captcha1.png}
+
+\caption{Exemple de contrôle CAPTCHA}
+\label{captcha1}
+\end{center}
+\end{figure}
 
 Pour que ce test soit efficace, il est nécessaire qu'il soit implémenté de façon correcte et, ainsi, ne pas laisser la possibilité à un attaquant d'exploiter une faille qu'il pourra par la suite réutiliser dans un script automatique.
  
@@ -551,11 +561,48 @@ La deuxième catégorie de vulnérabilités concerne le fait que le contrôle CA
 
 \paragraph{Résolution automatique :}
 
-Enfin, la troisième catégorie de vulnérabilités concerne la possibilité de résoudre de façon automatique les contrôles CAPTCHA. Dans cette catégorie, beaucoup de problèmes sont à prendre en compte : la difficulté du problème, le temps de résolution du problème ou encore l'étendue de la base de données CAPTCHA. En effet, ce dernier point est important car si la base de données d'images par exemple n'est pas assez grande, une entité pourrait facilement trouver un avantage financier à payer des personnes pour résoudre tous les problèmes CAPTCHA afin de pouvoir les exploiter automatiquement par la suite.
+Enfin, la troisième catégorie de vulnérabilités concerne la possibilité de résoudre de façon automatique les contrôles CAPTCHA. Dans cette catégorie, beaucoup de problèmes sont à prendre en compte : la difficulté du problème, le temps de résolution du problème ou encore l'étendue de la base de données CAPTCHA. En effet, ce dernier point est important car si la base de données d'images, par exemple, n'est pas assez grande, une entité pourrait facilement trouver un avantage financier à payer des personnes pour résoudre tous les problèmes CAPTCHA afin de pouvoir les exploiter automatiquement par la suite.
 
 \subsection{Exploitation de la vulnérabilité}
 
-\subsection{Contre-mesure}
+Afin d'illustrer une vulnérabilité permettant d'outre-passer un contrôle CAPTCHA, la page "\textit{Insecure CAPTCHA}" accessible depuis le menu de gauche de DVWA propose un formulaire de changement de mot de passe dont la validation est soumise à la résolution d'un contrôle CAPTCHA. Le but recherché est de modifier le mot de passe sans résoudre le contrôle CAPTCHA afin de pouvoir automatiser cette action.
+
+Le changement de mot de passe se déroule, ici, en trois phases : 
+\begin{itemize}
+\item première page : double saisie du nouveau mot de passe et résolution du contrôle CAPTCHA;
+\item deuxième page : vérification de la réussite au test et, en cas de succès, possibilité de valider le changement de mot de passe;
+\item troisième page : vérification de la cohérence des deux mots de passe et affichage du résultat (mot de passe modifié ou non).
+\end{itemize}
+
+On remarque donc que le changement de mot de passe s'effectue réellement lors du passage de la deuxième à la troisième page. En analysant grâce à l'add-on "\href{https://addons.mozilla.org/fr/firefox/addon/tamper-data/}{\textit{Temper Data}}" de Firefox les données attendues par la requête POST entre ces deux pages, on remarque qu'elles sont au nombre de quatre (cf. figure \ref{captcha2}) : "\textit{step}", "\textit{password\_new}", "\textit{password\_conf}" et "\textit{change}"
+
+\begin{figure}[!h]
+\begin{center}
+
+\includegraphics[scale=0.6]{images/captcha2.png}
+
+\caption{Données attendues par la requête POST}
+\label{captcha2}
+\end{center}
+\end{figure}
+
+Or on peut remarquer en analysant la requête POST entre la première et la deuxième page que ces quatre données sont également attendues. On peut alors tenter de créer une requête POST dès la première page qui inclue les données normalement attendues entre la deuxième et la troisième page. On utilise pour cela l'add-on "\href{https://addons.mozilla.org/fr/firefox/addon/hackbar/}{\textit{Hackbar}}" de Firefox. La figure \ref{captcha3} montre que le changement de mot de passe est alors immédiat à partir de la première page et, cela, sans résoudre le contrôle CAPTCHA.
+
+
+\begin{figure}[!h]
+\begin{center}
+
+\includegraphics[scale=0.4]{images/captcha3.png}
+
+\caption{Requête POST modifiant directement le mot de passe}
+\label{captcha3}
+\end{center}
+\end{figure}
+
+
+On voit donc qu'il est possible d'automatiser cette procédure de changement de mot de passe en créant une requête POST avec les bons paramètres. Le contrôle CAPTCHA peut ici être facilement outre-passé. Il est donc nécessaire de voir quelles contre-mesures peuvent être prises afin de garder toute l'efficacité de ce test. 
+
+\subsection{Contre-mesures}
 
 
 
@@ -564,3 +611,4 @@ Enfin, la troisième catégorie de vulnérabilités concerne la possibilité de 
 
 
 
+\clearpage
