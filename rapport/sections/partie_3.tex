@@ -8,7 +8,7 @@
 
 
 
-L'injection SQL, en anglais SQL  injection, ou SQLi en abrégé, est une des attaques les plus dangereuses. Comme pour le Cross Site Scripting présenté dans la suite de ce document, il s'agit ici de tirer parti de l'absence de filtrage des entrées utilisateurs. Cette absence de contrôles permet à un hacker d'insérer du code qui sera interprété par l'analyseur cible, par exemple SQL.
+L'injection SQL, en anglais SQL  injection, ou SQLi en abrégé, est l'attaque la plus critique au sens du classement de l' Open Web Application Security Project (OWASP) . Comme pour le Cross Site Scripting présenté dans la suite de ce document, il s'agit ici de tirer parti de l'absence de filtrage des entrées utilisateurs. Cette absence de contrôles permet à un hacker d'insérer du code qui sera interprété par l'analyseur cible, par exemple SQL.
 
 
 
@@ -211,11 +211,11 @@ Enfin, des produits sur étagères comme Burp suite/sqlmap ou, mieux,   \href{ww
 \section{Attaques Reflected XSS (non persistante)}
 
 \subsection{Description}
-Le Cross Site Scripting fait partie de la catégorie des attaques par injection au même titre que le SQLi décrit plus haut. Le Cross Site Scripting est désigné par l'acronyme XSS car CSS était déjà utilisé. Le terme XSS est en fait mal choisi car l'attaque ne concerne pas forcément plusieurs sites. En outre, un cracker peut entreprendre des attaques XSS en JavaScript mai aussi à l'aide d’autres langages ou sans utiliser les balises <script></script>.
+Le Cross Site Scripting fait partie de la catégorie des attaques par injection au même titre que le SQLi décrit plus haut. Le Cross Site Scripting est désigné par l'acronyme XSS car CSS était déjà utilisé. Le terme XSS est en fait mal choisi car l'attaque n'implique pas forcément plusieurs sites. En outre, un cracker peut entreprendre des attaques XSS en JavaScript mais aussi à l'aide d’autres langages ou sans utiliser les balises <script></script>.
 
 \paragraph{} Pourquoi cette dénomination ? Parce que l'un des objectifs de l'attaque est d’exécuter un script permettant de "faire traverser" des données, c'est à dire transmettre des données, to cross en anglais, depuis un site vers un autre. 
 
-\begin{figure}[!h]
+\begin{figure}[H] % H pour éviter qu'un paragraphe soit interrompu par l'image
 	\begin{center} 
 		\includegraphics[scale=\scalekad]{images/xss/reflected_xss}
 		\caption{Reflected XSS}
@@ -230,14 +230,14 @@ Le Cross Site Scripting fait partie de la catégorie des attaques par injection 
 \begin{enumerate}
 	\item   Envoi d'un lien piégé par mail. 
 	\item La victime clique sur le lien.
-	\item Le serveur répond en envoyant la page demandée avec le code du hacker injecté dans l'URL. Si le site est vulnérable, c'est à dire si les données sont incluses telles quelles dans la page de résultat, donc sans encodage des symboles propres à HTML, le code sera interprétable par le navigateur de la victime.
+	\item Le serveur répond en envoyant la page demandée avec le code du hacker injecté dans l'URI. Si le site est vulnérable, c'est à dire si les données sont incluses telles quelles dans la page de résultat, donc sans encodage des symboles propres à HTML, le code sera interprétable par le navigateur de la victime.
 	\item Le navigateur de la victime exécute le code de la page car il est censé provenir d'un serveur de confiance. 
 	\item Envoi des données de la victime  vers le hacker : cookies, ...
 \end{enumerate}
  
 
 
-\paragraph{} Pourquoi la non persistance ? Parce que le script malicieux n'est pas stocké sur le serveur web. On ne le trouvera pas dans un fichier, une base de donnée ou un message de forum. Le script malicieux ou sa référence sont transmis dans une URL. C'est cette URL qui est transmise dans le mail frauduleux. Le cracker devra connaître les adresses mail de ses victimes. Ce n'est pas le cas pour le stored XSS puisque tout visiteur du site piégé chargera une page avec le script enregistré sur le disque du serveur. 
+\paragraph{} Pourquoi la non persistance ? Parce que le script malicieux n'est pas stocké sur le serveur web. On ne le trouvera pas dans un fichier, une base de donnée ou un message de forum. Le script malicieux ou sa référence sont transmis dans une URI. C'est cette URI qui est transmise dans le mail frauduleux. Le cracker devra connaître les adresses mail de ses victimes. Ce n'est pas le cas pour le stored XSS puisque tout visiteur du site piégé chargera une page avec le script enregistré sur le disque du serveur. 
 
 
 
@@ -248,6 +248,7 @@ Le Cross Site Scripting fait partie de la catégorie des attaques par injection 
 	\item Le vol de cookies, de session, de compte, de fichiers. 
 	\item L'installation de chevaux de Troye.
 	\item Le défaçage de site.
+	\item Installer des key loggers
 \end{enumerate}
 
 
@@ -325,7 +326,7 @@ Du côté serveur, on peut appliquer les principes suivants :
 
 \subsection{Description}
 
-Dans ce type d'attaque, les données fournies par l'utilisateur sont enregistrées sur le serveur et non simplement transmis dans une URL. Les sites vulnérables vis à vis des ces atttaques XSS présentent un faille appelée parfois “Faille du livre d’or“. Cette faille existe dès lors que le site web fait confiance aux utilisateurs. Une seule injection permet d'atteindre un grand nombre de victimes sans avoir à recourir à l'ingénierie sociale nécessaire lors des attaques reflected XSS. . Il est donc primordial que toutes les données reçues par l'application web soient encodées.
+Dans ce type d'attaque, les données fournies par l'utilisateur sont enregistrées sur le serveur et non simplement transmises dans une URI. Un individu malveillant peut entrer des données, enregistrées comme dans un livre d'or, mais qui sont en fait du code interprétable par les navigateurs : javascript, html, etc. Lorsque qu'un internaute consultera ces données, le code injecté sera chargé dans la page demandée et interprété par le navigateur de la victime. Les sites vulnérables vis à vis des ces atttaques XSS présentent un faille appelée parfois “Faille du livre d’or“. Cette faille existe dès lors que le site web fait confiance aux utilisateurs. Une seule injection permet d'atteindre un grand nombre de victimes sans avoir à recourir à l'ingénierie sociale nécessaire lors des attaques reflected XSS. Il est donc primordial que toutes les données reçues par l'application web soient encodées.
 
 
 \paragraph{Exemple de stored XSS :} 
