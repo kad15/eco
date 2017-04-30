@@ -548,6 +548,7 @@ Pour que ce test soit efficace, il est nécessaire qu'il soit implémenté de fa
  
 
 \subsection{Description de la vulnérabilité}
+\label{desc_vul}
 
 Différentes catégories de vulnérabilités peuvent être mises en évidence concernant les contrôles CAPTCHA.
 
@@ -648,12 +649,37 @@ Cependant, en regardant le code source de la page HTML, on s'aperçoit que certa
 
 On peut alors penser qu'il s'agit de valeurs permettant de tester la procédure du changement de mot de passe. Il est donc possible que ces valeurs puisse permettre d'outre-passer le contrôle CAPTCHA dans le script de modification du mot de passe. De plus, on peut légitimement penser que le champ "\texttt{Response: 'reCAPTCHA'}" correspond à la données de la requête POST "\texttt{recaptcha\_response\_field}" et que le champ \texttt{User-Agent: 'reCAPTCHA'} correspond à l'en-tête "\textit{User\_Agent}" de cette même requête.
 
-On peut alors utiliser une nouvelle fois l'add-on "\href{https://addons.mozilla.org/fr/firefox/addon/tamper-data/}{\textit{Temper Data}}" de Firefox pour accéder à ces deux paramètres et les modifier (cf. figure
+On peut alors utiliser une nouvelle fois l'add-on "\href{https://addons.mozilla.org/fr/firefox/addon/tamper-data/}{\textit{Temper Data}}" de Firefox pour accéder à ces deux paramètres et les modifier (cf. figure \ref{captcha5}).
 
+\begin{figure}[!h]
+\begin{center}
+
+\includegraphics[scale=0.5]{images/captcha5.png}
+
+\caption{Capture et modification de la requête POST}
+\label{captcha5}
+\end{center}
+\end{figure}
+
+On obtient alors bien une modification de mot de passe sans résoudre le contrôle CAPTCHA (cf. \ref{captcha6}). Une fois encore, cette création de requête POST peut être facilement automatisée, rendant pas là le test inefficace.\\
+
+\begin{figure}[!h]
+\begin{center}
+
+\includegraphics[scale=0.5]{images/captcha6.png}
+
+\caption{Modification du mot de passe avec succès}
+\label{captcha6}
+\end{center}
+\end{figure}
+
+On voit donc que malgré l'utilisation d'une implémentation plus robuste, des erreurs de programmation de la part des développeurs peuvent mener à des failles allant à l'encontre même de ce qui était initialement souhaité. 
 
 \subsubsection{Troisième niveau}
 
+Dans ce troisième niveau implémenté, les commentaires et les portions de code utiles à des fins de test ont été supprimées. On se retrouve donc avec une implémentation beaucoup plus simple que les première proposées, reposant principalement sur la fonction \texttt{recaptcha\_check\_answer()} fournie par l'API reCAPTCHA et s'assurant du succès ou non au contrôle CAPTCHA.
 
+Afin d'outre-passer les sécurités mises en place à ce niveau là, il serait nécessaire de se pencher vers les vulnérabilités permettant des résolutions automatiques par exemple, comme explicité dans la section \ref{desc_vul}.
 
 
 
