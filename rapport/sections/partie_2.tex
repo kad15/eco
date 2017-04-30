@@ -564,6 +564,7 @@ La deuxième catégorie de vulnérabilités concerne le fait que le contrôle CA
 Enfin, la troisième catégorie de vulnérabilités concerne la possibilité de résoudre de façon automatique les contrôles CAPTCHA. Dans cette catégorie, beaucoup de problèmes sont à prendre en compte : la difficulté du problème, le temps de résolution du problème ou encore l'étendue de la base de données CAPTCHA. En effet, ce dernier point est important car si la base de données d'images, par exemple, n'est pas assez grande, une entité pourrait facilement trouver un avantage financier à payer des personnes pour résoudre tous les problèmes CAPTCHA afin de pouvoir les exploiter automatiquement par la suite.
 
 \subsection{Exploitation de la vulnérabilité}
+\label{vul_captcha}
 
 Afin d'illustrer une vulnérabilité permettant d'outre-passer un contrôle CAPTCHA, la page "\textit{Insecure CAPTCHA}" accessible depuis le menu de gauche de DVWA propose un formulaire de changement de mot de passe dont la validation est soumise à la résolution d'un contrôle CAPTCHA. Le but recherché est de modifier le mot de passe sans résoudre le contrôle CAPTCHA afin de pouvoir automatiser cette action.
 
@@ -603,6 +604,39 @@ Or on peut remarquer en analysant la requête POST entre la première et la deux
 On voit donc qu'il est possible d'automatiser cette procédure de changement de mot de passe en créant une requête POST avec les bons paramètres. Le contrôle CAPTCHA peut ici être facilement outre-passé. Il est donc nécessaire de voir quelles contre-mesures peuvent être prises afin de garder toute l'efficacité de ce test. 
 
 \subsection{Contre-mesures}
+
+L'application DVWA propose trois niveaux de contre-mesures afin de se protéger contre la vulnérabilité explicitée ci-dessus.
+
+\subsubsection{Premier niveau}
+
+\paragraph{Description de l'implémentation :}
+
+Nous avons pu voir dans l'exploitation de la vulnérabilité (section \ref{vul_captcha}) que la troisième page dans laquelle le mot de passe était réellement modifié pouvait être directement accessible à partir de la première page. L'idée mise en œuvre pour se prémunir de cet accès non désiré est de créer une nouvelle variable d'état dans la requête POST entre la deuxième et la troisième page, indiquant si le contrôle CAPTCHA a été réussi ou non. Cette variable obtient sa valeur à partir du formulaire présent dans la deuxième page. Cette implémentation est censée s'assurer qu'un passage par la deuxième page a bien eu lieu. Le test suivant est donc rajouté avant d'entrer sur la troisième page :
+
+\begin{lstlisting}
+// Check to see if they did stage 1
+if( !$_POST[ 'passed_captcha' ] ) {
+    $html .= "<pre><br />You have not passed the CAPTCHA.</pre>";
+    $hide_form = false;
+    return;
+} 
+\end{lstlisting}
+
+\paragraph{Faiblesse de la contre-mesure :} Cette création d'une nouvelle variable d'état ne fait qu'ajouter un champ aux données transmises par la requête POST permettant l'accès à la troisième page. A partir du moment où un attaquant a conscience qu'une nouvelle variable est demandée par le script réceptionnant la requête (grâce, par exemple, à la capture des requêtes envoyées par le client au serveur comme réalisé dans la section \ref{vul_captcha}), il est possible de créer une nouvelle requête faisant apparaitre cette données avec la valeur adéquate. En cela, le contournement du contrôle CAPTCHA est en tout point similaire à ce qui a été réalisé précédemment : il suffit d'ajouter la mention "\texttt{passed\_captcha=true}" aux données de la requête POST envoyée depuis la première page (cf. figure \ref{captcha4}).
+
+\begin{figure}[!h]
+\begin{center}
+
+\includegraphics[scale=0.4]{images/captcha4.png}
+
+\caption{Requête POST modifiant directement le mot de passe}
+\label{captcha4}
+\end{center}
+\end{figure}
+
+\subsubsection{Deuxième niveau}
+
+\subsubsection{Troisième niveau}
 
 
 
