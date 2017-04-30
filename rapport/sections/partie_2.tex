@@ -29,7 +29,24 @@ Nous voyons donc que le premier point ci-dessus permet d'obtenir une réelle ada
 
 \subsection{Description de la vulnérabilité}
 
-La principale vulnérabilité connue dans le mécanisme que nous venons d'expliciter intervient lorsque l'inclusion d'un script est gérée par une variable pouvant être contrôlée par un attaquant. On se retrouve alors plutôt dans le premier cas d'utilisation indiqué, c'est à dire inclure des portions de code différentes en fonction de choix de l'utilisateur ou de l'environnement de ce dernier. En effet, dans le second cas d'utilisation, l'inclusion du fichier est généralement écrite "en dur" dans le script principal et ne peut donc pas être facilement modifiée par un attaquant.
+La principale vulnérabilité connue dans le mécanisme que nous venons d'expliciter intervient lorsque l'inclusion d'un script est gérée par une variable pouvant être contrôlée par un attaquant. Par exemple, afin d'introduire de la souplesse dans la gestion des pages web, il est possible en PHP d'inclure une page dont le nom a été passé en paramètre de l'URL. Il suffit simplement ensuite de récupérer ce nom et d'inclure le fichier souhaité grâce au code suivant :
+
+\begin{lstlisting}
+<?php
+
+// The page we wish to display
+$file = $_GET[ 'page' ];
+
+// Some code...
+
+include $file;
+
+// Some code...
+
+?> 
+\end{lstlisting}
+
+On se retrouve alors plutôt ici dans le premier cas d'utilisation indiqué, c'est à dire inclure des portions de code différentes en fonction de choix de l'utilisateur ou de l'environnement de ce dernier. En effet, dans le second cas d'utilisation, l'inclusion du fichier est généralement écrite "en dur" dans le script principal et ne peut donc pas être facilement modifiée par un attaquant.
 
 \begin{figure}[!h]
 \begin{center}
@@ -46,7 +63,7 @@ On remarque dans le schéma \ref{inclusion_hacked} que dans le cas où un attaqu
 
 \subsubsection{Local File Inclusion}
 
-Une fois que l'attaquant est en capacité de modifier le contenu de la variable indiquant le nom du script à inclure, celui-ci peut y indiquer un chemin local (i.e. directement sur le serveur) vers un script contenant du code malveillant. Il peut s'agir d'un script que l'attaquant a au préalable placé sur le serveur ou d'un script déjà présent qui effectue des opérations pouvant porter atteinte à la disponibilité de la machine voire à l'intégrité ou la confidentialité des données.
+Une fois que l'attaquant est en capacité de modifier le contenu de la variable indiquant le nom du script à inclure, celui-ci peut y indiquer un chemin local (i.e. directement sur le serveur) vers un script contenant du code malveillant. Il peut s'agir d'un script que l'attaquant a au préalable placé sur le serveur ou d'un script déjà présent qui effectue des opérations pouvant porter atteinte à la disponibilité de la machine voire à l'intégrité ou la confidentialité des données. Il est cependant nécessaire pour l'attaquant d'avoir une bonne vision de l'arborescence des dossiers et des fichiers sur le serveur afin de pouvoir indiquer clairement le chemin vers le fichier souhaité.
 
 \subsubsection{Remote File Inclusion}
 
@@ -270,6 +287,9 @@ Une telle implémentation se trouve apparemment dépourvue de faiblesse en ce qu
 
 La section suivante s'attache à analyser les différentes façons de se prémunir contre ce type de vulnérabilité.
 
+\clearpage
+
+\newpage
 
 \section{File Upload}
 \label{fu}
@@ -527,6 +547,10 @@ La première partie du code ci-dessus crée une nouvelle image à partir du fich
 La deuxième partie du code a, elle, pour but de déplacer le fichier au bon endroit sur le serveur. La troisième partie du code supprime tous les fichiers temporaires qui auraient pu être créés. Ces deux dernières parties permettent de se prémunir contre la présence de fichiers qui n'auraient pas été traités correctement et qui pourraient être exécutés grâce à la technique du \textit{Remote File Inclusion}.\\
 
 L'ensemble des tests effectués à ce niveau de sécurité permettent donc de se prémunir au maximum contre le chargement de fichiers non désirés. En effet, les portions de code qui auraient notamment pu être associées à une image ne doivent pas subsister à l'issu du traitement par les fonctions PHP \texttt{imagecreatefromjpeg()} et \texttt{imagecreatefrompng()}.
+
+\clearpage
+
+\newpage
 
 \section{Insecure CAPTCHA}
 
