@@ -83,7 +83,7 @@ La page "\textit{File Inclusion}" accessible depuis le menu de gauche de DVWA pe
 
 \begin{figure}[!h]
 \begin{center}
-\includegraphics[scale=.34]{images/fi1.png}
+\includegraphics[scale=.45]{images/fi1_1.png}
 
 \caption{Page "File Inclusion" de DVWA}
 \label{fi_dvwa1}
@@ -133,7 +133,7 @@ Nous voyons alors dans la figure \ref{fi_dvwa4} que nous avons pu inclure en hau
 
 \begin{figure}[!h]
 \begin{center}
-\includegraphics[scale=.6]{images/fi4.png}
+\includegraphics[scale=.6]{images/fi4_1.png}
 
 \caption{Inclusion de \texttt{fi.php} dans la page principale}
 \label{fi_dvwa4}
@@ -190,9 +190,9 @@ Afin d'illustrer ce propos, nous allons utiliser l'add-on "\href{https://addons.
 
 \begin{figure}[!h]
 \begin{center}
-\includegraphics[scale=.41]{images/fi6.png}
+\includegraphics[scale=.35]{images/fi6.png}
 
-\caption{Création d'une requête POST pour l'inclusion de \url{http://google.fr} dans la page principale}
+\caption{Création d'une requête POST pour l'inclusion de \url{http://google.fr}}
 \label{fi_dvwa6}
 \end{center}
 \end{figure}
@@ -271,8 +271,8 @@ Une dernière implémentation dans l'application DVWA remplace le test précéde
 
 \begin{lstlisting}
 // Only allow include.php or file{1..3}.php
-if( $file != "include.php" && $file != "file1.php" && $file != "file2.php" && 
-    $file != "file3.php" ) {
+if( $file != "include.php" && $file != "file1.php" && $file != "file2.php" 
+    && $file != "file3.php" ) {
     // This isn't the page we want!
     echo "ERROR: File not found!";
     exit;
@@ -395,6 +395,7 @@ L'application DVWA propose trois niveaux de contre-mesures afin de se protéger 
 Le premier niveau de sécurité implémenté par DVWA tente de s'assurer que le fichier chargé est bien une image. Pour cela, le test suivant est effectué avant tout traitement du fichier :
 
 \begin{lstlisting}
+
 // File information
 $uploaded_name = $_FILES[ 'uploaded' ][ 'name' ];
 $uploaded_type = $_FILES[ 'uploaded' ][ 'type' ];
@@ -468,10 +469,14 @@ $uploaded_size = $_FILES[ 'uploaded' ][ 'size' ];
 $uploaded_tmp  = $_FILES[ 'uploaded' ][ 'tmp_name' ];
 
 // Is it an image?
-if( ( strtolower( $uploaded_ext ) == "jpg" || strtolower( $uploaded_ext ) == "jpeg" || 
-      strtolower( $uploaded_ext ) == "png" ) && ( $uploaded_size < 100000 ) &&
+if( ( strtolower( $uploaded_ext ) == "jpg" ||
+      strtolower( $uploaded_ext ) == "jpeg" || 
+      strtolower( $uploaded_ext ) == "png" ) && 
+      ( $uploaded_size < 100000 ) &&
       getimagesize( $uploaded_tmp ) ) {
-        //Traitement de l'image
+      
+          //Traitement de l'image
+
 }
         
 \end{lstlisting}
@@ -499,7 +504,7 @@ Pour faire face à ce dernier problème, nous pouvons alors faire appel aux vuln
 \end{center}
 \end{figure}
 
-Pour cela, nous pouvons nous servir de la page de DVWA dédiée à la technique du \textit{Local File Inclusion} dans laquelle nous pouvons passer la chaine \texttt{file:///var/www/html/dvwa/hackable/uploads/fu.png} au paramètre "\textit{page}" de l'URL. L'inclusion du fichier ne se souciera pas de l'extension et exécutera le code comme nous pouvons le voir sur la figure \ref{fu_dvwa7} ci-dessous :
+Pour cela, nous pouvons nous servir de la page de DVWA dédiée à la technique du \textit{Local File Inclusion} dans laquelle nous pouvons passer la chaine \path{file:///var/www/html/dvwa/hackable/uploads/fu.png} au paramètre "\textit{page}" de l'URL. L'inclusion du fichier ne se souciera pas de l'extension et exécutera le code comme nous pouvons le voir sur la figure \ref{fu_dvwa7} ci-dessous :
 
 \begin{figure}[!h]
 \begin{center}
@@ -618,7 +623,7 @@ Or on peut remarquer en analysant la requête POST entre la première et la deux
 \begin{figure}[!h]
 \begin{center}
 
-\includegraphics[scale=0.4]{images/captcha3.png}
+\includegraphics[scale=0.34]{images/captcha3.png}
 
 \caption{Requête POST modifiant directement le mot de passe}
 \label{captcha3}
@@ -652,7 +657,7 @@ if( !$_POST[ 'passed_captcha' ] ) {
 \begin{figure}[!h]
 \begin{center}
 
-\includegraphics[scale=0.4]{images/captcha4.png}
+\includegraphics[scale=0.4]{images/captcha4_1.png}
 
 \caption{Requête POST modifiant directement le mot de passe}
 \label{captcha4}
@@ -671,7 +676,7 @@ Cependant, en regardant le code source de la page HTML, on s'aperçoit que certa
 \texttt{<!-- **DEV NOTE**   Response: 'hidd3n\_valu3'   \&\&   User-Agent: 'reCAPTCHA'   **/DEV NOTE** -->}
 \end{quote}
 
-On peut alors penser qu'il s'agit de valeurs permettant de tester la procédure du changement de mot de passe. Il est donc possible que ces valeurs puisse permettre d'outre-passer le contrôle CAPTCHA dans le script de modification du mot de passe. De plus, on peut légitimement penser que le champ "\texttt{Response: 'reCAPTCHA'}" correspond à la données de la requête POST "\texttt{recaptcha\_response\_field}" et que le champ \texttt{User-Agent: 'reCAPTCHA'} correspond à l'en-tête "\textit{User\_Agent}" de cette même requête.
+On peut alors penser qu'il s'agit de valeurs permettant de tester la procédure du changement de mot de passe. Il est donc possible que ces valeurs puisse permettre d'outre-passer le contrôle CAPTCHA dans le script de modification du mot de passe. De plus, on peut légitimement penser que le champ "\texttt{Response: 'reCAPTCHA'}" correspond à la données de la requête POST \linebreak "\texttt{recaptcha\_response\_field}" et que le champ \texttt{User-Agent: 'reCAPTCHA'} correspond à l'en-tête "\textit{User\_Agent}" de cette même requête.
 
 On peut alors utiliser une nouvelle fois l'add-on "\href{https://addons.mozilla.org/fr/firefox/addon/tamper-data/}{\textit{Temper Data}}" de Firefox pour accéder à ces deux paramètres et les modifier (cf. figure \ref{captcha5}).
 
@@ -685,7 +690,7 @@ On peut alors utiliser une nouvelle fois l'add-on "\href{https://addons.mozilla.
 \end{center}
 \end{figure}
 
-On obtient alors bien une modification de mot de passe sans résoudre le contrôle CAPTCHA (cf. \ref{captcha6}). Une fois encore, cette création de requête POST peut être facilement automatisée, rendant pas là le test inefficace.\\
+On obtient alors bien une modification de mot de passe sans résoudre le contrôle CAPTCHA (cf. figure \ref{captcha6}). Une fois encore, cette création de requête POST peut être facilement automatisée, rendant pas là le test inefficace.\\
 
 \begin{figure}[!h]
 \begin{center}
