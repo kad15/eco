@@ -18,7 +18,7 @@ Une telle attaque peut être un premier point d'appui pour obtenir plus de privi
 
 On se place dans l'onglet Brute Force. On retrouve un espace avec deux champs à remplir : le login (username) et le mot de passe (password) associé. Il est possible de tenter de se loger en essayant plusieurs combinaisons parmi les plus courantes telles que : "root, root", "admin, admin", "administrateur, password"... On trouvera assez rapidement une combinaison login / mot de passe qui convient.
 
-L'autre méthode s'appuie sur un dictionnaire. On crée donc un fichier, que l'on nomme "\texttt{motsdepasse.txt}", contenant les mots de passe les plus utilisés. Il est aussi possible d'y rajouter des informations sur les utilisateurs (ville de résidence, noms des enfants, année de naissance, …) pour étendre l'éventail de recherche des combinaisons login / mot de passe.
+L'autre méthode s'appuie sur un dictionnaire. On crée donc un fichier, que l'on nomme\linebreak "\texttt{motsdepasse.txt}", contenant les mots de passe les plus utilisés. Il est aussi possible d'y rajouter des informations sur les utilisateurs (ville de résidence, noms des enfants, année de naissance, …) pour étendre l'éventail de recherche des combinaisons login / mot de passe.
 
 Après le premier essai, on remarque que les champs login et mot de passe interviennent dans l'URL \path{http://localhost/dvwa/vulnerabilities/brute/?username=admin&password=password&Login=Login#}. Les essais à répétition se feront donc sur l'URL en remplaçant les champs username et password par un login choisi au préalable, et un mot de passe parmi la liste du fichier de mots de passe créé précédemment.
 
@@ -98,8 +98,8 @@ Ce qui donne :
 \end{center}
 \end{figure}
 
-Nous pouvons donc supposer que l'application est entrain d'exécuter exec("ping" +$champPing)...qui deviendraexec('ping localhost')
-On peut essayer de rentrer une commande après l'adresse choisie en séparant celles-ci d'un ';'. Par exemple, en rentrant la commande 'localhost ; ls', on obtient exec('ping'+ $champPing), qui deviendra exec('ping localhost; ls'):
+Nous pouvons donc supposer que l'application est en train d'exécuter exec('ping' +\$champPing)... qui deviendra exec('ping localhost').
+On peut essayer de rentrer une commande après l'adresse choisie en séparant celles-ci d'un ';'. Par exemple, en rentrant la commande 'localhost ; ls', on obtient exec('ping'+ \$champPing), qui deviendra exec('ping localhost; ls'):
 
 \begin{figure}[!h]
 \begin{center}
