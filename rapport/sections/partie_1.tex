@@ -55,7 +55,7 @@ Ensuite, il était possible d'effectuer un nombre infini d'essai de mot de passe
 
 Une autre donnée à laquelle nous avions accès était le login connu par avance. Afin de palier à ce problème, le login peut être affichier d'une manière différente lorsque l'utilisateur est déja logé.
 
-Enfin, une dernière méthode pourrait être d'effectuer la connexion par le moyen d'une entrée qui ne peut être attaquée grâce a la Brute Force telle que des empreintes personnelles ou encore une signature.
+Enfin, une dernière méthode pourrait être d'effectuer la connexion par le moyen d'une entrée qui ne peut être attaquée grâce a la Brute Force telle que des empreintes personnelles, une signature ou encore l'utilisation de CAPTCHA.
 
 \clearpage
 
@@ -65,7 +65,7 @@ Enfin, une dernière méthode pourrait être d'effectuer la connexion par le moy
 
 \subsection{Description de la vulnérabilité}
 
-Une tentative d'attaque par exécution de commandes consiste, comme son nom l'indique, à exécuter des commandes à partir d'un champ d'une application web. L'intérêt est ici de pouvoir exécuter ces commandes dans le serveur web. Il est à savoir que les commandes lancées dans ce serveur le sont avec les droits du serveur.
+Une tentative d'attaque par exécution de commandes consiste, comme son nom l'indique, à exécuter des commandes à partir d'un champ d'une application web non prévu initialement pour recevoir des commandes. L'intérêt est ici de pouvoir exécuter ces commandes dans le serveur web. Il est à savoir que les commandes lancées dans ce serveur le sont avec les droits du serveur.
 
 Ce type d'attaque peut servir de premier point d'entrée pour une attaque de plus grande ampleur dans l'application web visée.
 
@@ -98,7 +98,8 @@ Ce qui donne :
 \end{center}
 \end{figure}
 
-On peut essayer de rentrer une commande après l'adresse choisie en séparant celles-ci d'un ';'. Par exemple, en rentrant la commande 'localhost ; ls', on obtient :
+Nous pouvons donc supposer que l'application est entrain d'exécuter exec("ping" +$champPing)...qui deviendraexec('ping localhost')
+On peut essayer de rentrer une commande après l'adresse choisie en séparant celles-ci d'un ';'. Par exemple, en rentrant la commande 'localhost ; ls', on obtient exec('ping'+ $champPing), qui deviendra exec('ping localhost; ls'):
 
 \begin{figure}[!h]
 \begin{center}
@@ -112,7 +113,7 @@ On peut essayer de rentrer une commande après l'adresse choisie en séparant ce
 \end{figure}
 
 On a donc un listing de l'ensemble des fichiers et des répertoires présents dans le répertoire où l'on se trouve.
-Il devient alors possible de lancer des commandes à partir de cette barre de recherche. De plus, il est possible d'enchaîner les commandes en les séparant par ';' et donc de naviguer dans les répertoires du système.
+Il devient alors possible de lancer des commandes à partir de cette barre de recherche. De plus, il est possible d'enchaîner les commandes en les séparant par ';' et donc de naviguer dans les répertoires du système. Ainsi l'application web est vulnérable.
 
 
 \subsection{Contre-mesure}
@@ -136,7 +137,7 @@ Enfin, les commandes php peuvent permettre l'exécution de commande bash sur un 
 
 \subsection{Description de la vulnérabilité}
 
-Une attaque de type CSRF, Cross-Site Request Forgery, consiste à faire agir un utilisateur, comme on le désire, à son insu. L'objectif principal est de générer une action particulière. Ces actions peuvent être de plusieurs types :
+Une attaque de type CSRF, Cross-Site Request Forgery, consiste à faire agir un utilisateur, comme on le désire, à son insu. Dans ce cas, à savoir que l'attaquant n'a pas de droit sur le site qu'il souhaite attaquer. Pour cela, il attaquera l'utilisateur, pour se servir de ses droits et attaquer un autre site. L'objectif principal est de générer une action particulière. Ces actions peuvent être de plusieurs types :
 
 \begin{enumerate}
 \item créer, supprimer ou modifier un utilisateur;
@@ -146,7 +147,7 @@ Une attaque de type CSRF, Cross-Site Request Forgery, consiste à faire agir un 
 \item …
 \end{enumerate}
 
-Pour que l'attaquant puisse profiter de cette faille, il faut qu'il ait les droits d'administrateur, c'est pourquoi il passe par l'action d'un autre utilisateur. Afin que l'utilisateur effectue cette action sans qu'il ne s'en rende compte, l'ingénierie sociale est de mise. Dans certains cas, il s'agira de cliquer sur un lien qui permettra à l'action de s'effectuer.
+Pour que l'attaquant puisse profiter de cette faille, il faut qu'il ait des droits suffisants pour exécuter l'attaque, c'est pourquoi il passe par l'action d'un autre utilisateur. Afin que l'utilisateur effectue cette action sans qu'il ne s'en rende compte, l'ingénierie sociale est de mise. Dans certains cas, il s'agira de cliquer sur un lien qui permettra à l'action de s'effectuer.
 
 \subsection{Exploitation de la vulnérabilité}
 
