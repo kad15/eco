@@ -31,27 +31,33 @@
 \headcommand {\beamer@subsectionentry {0}{2}{6}{11}{Insecure CAPTCHA}}\headcommand {\beamer@subsectionpages {10}{10}}
 \headcommand {\slideentry {2}{6}{1}{11/11}{Insecure CAPTCHA}{0}}
 \headcommand {\beamer@framepages {11}{11}}
-\headcommand {\beamer@subsectionentry {0}{2}{7}{12}{Injection SQL}}\headcommand {\beamer@subsectionpages {11}{11}}
-\headcommand {\slideentry {2}{7}{1}{12/12}{Injection SQL}{0}}
+\headcommand {\beamer@subsectionentry {0}{2}{7}{12}{Injection SQL et Blind Injection SQL }}\headcommand {\beamer@subsectionpages {11}{11}}
+\headcommand {\slideentry {2}{7}{1}{12/12}{Injection SQL et Blind Injection SQL }{0}}
 \headcommand {\beamer@framepages {12}{12}}
-\headcommand {\beamer@subsectionentry {0}{2}{8}{13}{Injection SQL aveugle}}\headcommand {\beamer@subsectionpages {12}{12}}
-\headcommand {\slideentry {2}{8}{1}{13/13}{Injection SQL aveugle}{0}}
+\headcommand {\beamer@subsectionentry {0}{2}{8}{13}{R\IeC {\'e}sultat de l'injection}}\headcommand {\beamer@subsectionpages {12}{12}}
+\headcommand {\slideentry {2}{8}{1}{13/13}{R\IeC {\'e}sultat de l'injection}{0}}
 \headcommand {\beamer@framepages {13}{13}}
-\headcommand {\beamer@subsectionentry {0}{2}{9}{14}{Attaques Reflected XSS (non persistante)}}\headcommand {\beamer@subsectionpages {13}{13}}
-\headcommand {\slideentry {2}{9}{1}{14/14}{Attaques Reflected XSS (non persistante)}{0}}
+\headcommand {\beamer@subsectionentry {0}{2}{9}{14}{Attaques XSS : Cross Site Scripting}}\headcommand {\beamer@subsectionpages {13}{13}}
+\headcommand {\slideentry {2}{9}{1}{14/14}{Attaques XSS : Cross Site Scripting}{0}}
 \headcommand {\beamer@framepages {14}{14}}
-\headcommand {\beamer@subsectionentry {0}{2}{10}{15}{Stored XSS (persistante)}}\headcommand {\beamer@subsectionpages {14}{14}}
-\headcommand {\slideentry {2}{10}{1}{15/15}{Stored XSS (persistante)}{0}}
+\headcommand {\beamer@subsectionentry {0}{2}{10}{15}{Attaques Reflected XSS (non persistante) - 1}}\headcommand {\beamer@subsectionpages {14}{14}}
+\headcommand {\slideentry {2}{10}{1}{15/15}{Attaques Reflected XSS (non persistante) - 1}{0}}
 \headcommand {\beamer@framepages {15}{15}}
-\headcommand {\sectionentry {3}{Conclusion}{16}{Conclusion}{0}}
-\headcommand {\beamer@sectionpages {5}{15}}
-\headcommand {\beamer@subsectionpages {15}{15}}
-\headcommand {\slideentry {3}{0}{1}{16/16}{}{0}}
+\headcommand {\beamer@subsectionentry {0}{2}{11}{16}{Attaques Reflected XSS (non persistante) - 2}}\headcommand {\beamer@subsectionpages {15}{15}}
+\headcommand {\slideentry {2}{11}{1}{16/16}{Attaques Reflected XSS (non persistante) - 2}{0}}
 \headcommand {\beamer@framepages {16}{16}}
-\headcommand {\slideentry {3}{0}{2}{17/17}{}{0}}
+\headcommand {\beamer@subsectionentry {0}{2}{12}{17}{Attaques Stored XSS (persistante)}}\headcommand {\beamer@subsectionpages {16}{16}}
+\headcommand {\slideentry {2}{12}{1}{17/17}{Attaques Stored XSS (persistante)}{0}}
 \headcommand {\beamer@framepages {17}{17}}
-\headcommand {\beamer@partpages {1}{17}}
-\headcommand {\beamer@subsectionpages {16}{17}}
-\headcommand {\beamer@sectionpages {16}{17}}
-\headcommand {\beamer@documentpages {17}}
-\headcommand {\def \inserttotalframenumber {16}}
+\headcommand {\sectionentry {3}{Conclusion}{18}{Conclusion}{0}}
+\headcommand {\beamer@sectionpages {5}{17}}
+\headcommand {\beamer@subsectionpages {17}{17}}
+\headcommand {\slideentry {3}{0}{1}{18/18}{}{0}}
+\headcommand {\beamer@framepages {18}{18}}
+\headcommand {\slideentry {3}{0}{2}{19/19}{}{0}}
+\headcommand {\beamer@framepages {19}{19}}
+\headcommand {\beamer@partpages {1}{19}}
+\headcommand {\beamer@subsectionpages {18}{19}}
+\headcommand {\beamer@sectionpages {18}{19}}
+\headcommand {\beamer@documentpages {19}}
+\headcommand {\def \inserttotalframenumber {18}}

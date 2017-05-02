@@ -213,27 +213,90 @@ Vulnérabilités courantes :
 
 \end{frame}
 
-\subsection{Injection SQL}
+\subsection{Injection SQL et Blind Injection SQL }
 
-\begin{frame}{Injection SQL}
+\begin{frame}{Injection SQL et Blind Injection SQL }
+\begin{center}
+	\includegraphics[scale=.5]{../images/bd.png}
+\end{center}
+
+
+\begin{block}{Caractéristiques de la vulnérabilité}
+	\begin{center}
+		\includegraphics[scale=.5]{../images/sql/code_low.png}
+	\end{center}
+	Vulnérabilités courantes :
+	\begin{enumerate}[\ding{217}]
+		\item DVWA-Low ne filtre pas les entrées utilisateurs,
+		\item L'injection suivante {\color{red} ' UNION select password, last\_name from users\#} permet de récupérer les mots de passe dans la base de données du site web.
+
+	\end{enumerate}
+\end{block}
 
 \end{frame}
 
-\subsection{Injection SQL aveugle}
 
-\begin{frame}{Injection SQL aveugle}
+\subsection{Résultat de l'injection}
+
+\begin{frame}{Résultat de l'injection}
+
+\begin{center}
+	\includegraphics[scale=.25]{../images/sql/sqli_low.png}
+\end{center}
 
 \end{frame}
 
-\subsection{Attaques Reflected XSS (non persistante)}
+\subsection{Attaques XSS : Cross Site Scripting}
 
-\begin{frame}{Attaques Reflected XSS (non persistante}
+\begin{frame}
+
+\begin{center}
+	\includegraphics[scale=.25]{../images/xss/hack2.png}
+\end{center}
+
+\begin{block}{Test de vulnérabilité aux attaques XSS}
+\begin{center}
+	\includegraphics[scale=.40]{../images/xss/script.png}
+\end{center}
+      % <script>alert('coucou')</script>
+
+\end{block}
 
 \end{frame}
 
-\subsection{Stored XSS (persistante)}
 
-\begin{frame}{Stored XSS (persistante)}
+\subsection{Attaques Reflected XSS (non persistante) - 1}
+
+\begin{frame}{Attaques Reflected XSS (non persistante)}
+
+\begin{center}
+	\includegraphics[scale=.42]{../images/xss/reflected_xss.jpg}
+\end{center}
+
+\end{frame}
+
+
+\subsection{Attaques Reflected XSS (non persistante) - 2}
+
+\begin{frame}{Attaques Reflected XSS (non persistante)}
+
+\begin{center}
+	\includegraphics[scale=.42]{../images/xss/reflected_xss2.png}
+\end{center}
+
+\end{frame}
+
+
+
+\subsection{Attaques Stored XSS (persistante)}
+
+\begin{frame}{Attaques Stored XSS (persistante)}
+
+\begin{center}
+	\includegraphics[scale=.42]{../images/xss/stored_xss.jpg}
+\end{center}
+
+
 
 \end{frame}
 
