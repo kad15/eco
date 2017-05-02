@@ -76,17 +76,65 @@
 
 \begin{frame}{Brute Force}
 
+\begin{block}{Caractéristiques de la vulnérabilité}
+	\begin{enumerate}[\ding{217}]
+		\item Intervient lors de la connexion d'un utilisateur
+		\item Permet la découverte du mot de passe d'un utilisateur
+		\item Deux moyens de procéder : avec ou sans dictionnaire
+	\end{enumerate}
+\end{block}
+
+\begin{block}{Caractéristiques de la vulnérabilité}
+        \begin{enumerate}[\ding{217}]
+                \item Essais à la main (sans dictionnaire)
+		\item Appartition des login / mot de passe dans l'URL
+		\item Essai multiples pour un login donné (si le nombre de tentatives n'est pas limité)
+	\end{enumerate}
+\end{block}
+  
 \end{frame}
 
 \subsection{Command Injection}
 
 \begin{frame}{Command Injection}
 
+\begin{block}{Caractéristiques de la vulnérabilité}
+	\begin{enumerate}[\ding{217}]
+		\item Utilisation d'un champ prévu pour exécuter un \textit{Ping} sur l'adresse entrée
+		\item Exécuter des commandes dans un champ non prévu à cet effet
+		\item Possibilité d'exécuter plusieurs commandes à la suite
+	\end{enumerate}
+\end{block}
+
+\begin{block}{Caractéristiques de la vulnérabilité}
+	\begin{enumerate}[\ding{217}]
+		\item On enchaine les commandes séparées par des ';'
+		\item Naviguer dans les répertoires du système
+		\item Premier point d'entrée pour une opération de plus grande ampleur
+	\end{enumerate}
+\end{block}
+
 \end{frame}
 
 \subsection{CSRF}
 
 \begin{frame}{CSRF}
+
+\begin{block}{Présentation de la vulnérabilité}
+	\begin{enumerate}[\ding{217}]
+		\item CSRF :  \textit{Cross-Site Request Forgery}
+		\item Permet de modifier le mot de passe de l'utilisateur
+		\item Faire exécuter une action par un utilisateur à son insu
+	\end{enumerate}
+\end{block}
+
+\begin{block}{Caractéristiques de la vulnérabilité}
+        \begin{enumerate}[\ding{217}]
+                \item Aucune vérification de l'identité de la personne
+		\item L'ingénierie sociale permet d'y arriver
+		\item Un raccourcissement de l'URL qui permet l'exécution de l'action
+	\end{enumerate}
+\end{block}
 
 \end{frame}
 
