@@ -8,7 +8,7 @@
 *.acn
 *.acr
 *.alg
-*.bbl
+#*.bbl
 *.blg
 *.dvi
 *.glg

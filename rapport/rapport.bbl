@@ -1,0 +1,32 @@
+\begin{thebibliography}{AJO10}
+
+\bibitem[ACI15]{ACISSI}
+ACISSI.
+\newblock {\em Sécurité informatique - Ethical Hacking}.
+\newblock ENI Editions, 2015.
+\newblock \url{http://www.acissi.net/}.
+
+\bibitem[AJO10]{Avoine}
+Gildas Avoine, Pascal Junod, and Philippe Oechslin.
+\newblock {\em Sécurité informatique 2ème édition}.
+\newblock Vuibert, 2010.
+
+\bibitem[Dor15]{Dorigny}
+Mickael Dorigny.
+\newblock {\em Blog sur la sécurité de l'information et le pentest}.
+\newblock 2015.
+\newblock \url{https://www.information-security.fr/}.
+
+\bibitem[Fra14]{Franc}
+Mickael Franc.
+\newblock {\em blog OWASP - Cross-Site Scripting}.
+\newblock 10 février 2014.
+\newblock
+  \url{http://blog.clever-age.com/fr/2014/02/10/owasp-xss-cross-site-scripting/}.
+
+\bibitem[SP15]{Stuttard}
+Dafydd Stuttard and Marcus Pinto.
+\newblock {\em The Web Application Hacker’s Handbook}.
+\newblock John Wiley \& Sons, Inc., 2015.
+
+\end{thebibliography}
