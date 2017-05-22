@@ -1,32 +1,9 @@
-\begin{thebibliography}{AJO10}
-
-\bibitem[AJO10]{Avoine}
-Gildas Avoine, Pascal Junod, and Philippe Oechslin.
-\newblock {\em Sécurité informatique 2ème édition}.
-\newblock Vuibert, 2010.
+\begin{thebibliography}{BI17}
 
 \bibitem[BI17]{RePEc:eee:jaitra:v:61:y:2017:i:c:p:34-40}
 Lucy Budd and Stephen Ison.
 \newblock The role of dedicated freighter aircraft in the provision of global
   airfreight services.
 \newblock {\em Journal of Air Transport Management}, 61(C):34--40, 2017.
-
-\bibitem[Dor15]{Dorigny}
-Mickael Dorigny.
-\newblock {\em Blog sur la sécurité de l'information et le pentest}.
-\newblock 2015.
-\newblock \url{https://www.information-security.fr/}.
-
-\bibitem[Fra14]{Franc}
-Mickael Franc.
-\newblock {\em blog OWASP - Cross-Site Scripting}.
-\newblock 10 février 2014.
-\newblock
-  \url{http://blog.clever-age.com/fr/2014/02/10/owasp-xss-cross-site-scripting/}.
-
-\bibitem[SP15]{Stuttard}
-Dafydd Stuttard and Marcus Pinto.
-\newblock {\em The Web Application Hacker’s Handbook}.
-\newblock John Wiley \& Sons, Inc., 2015.
 
 \end{thebibliography}
