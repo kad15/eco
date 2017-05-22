@@ -1,15 +1,15 @@
 \begin{thebibliography}{AJO10}
 
-\bibitem[ACI15]{ACISSI}
-ACISSI.
-\newblock {\em Sécurité informatique - Ethical Hacking}.
-\newblock ENI Editions, 2015.
-\newblock \url{http://www.acissi.net/}.
-
 \bibitem[AJO10]{Avoine}
 Gildas Avoine, Pascal Junod, and Philippe Oechslin.
 \newblock {\em Sécurité informatique 2ème édition}.
 \newblock Vuibert, 2010.
+
+\bibitem[BI17]{RePEc:eee:jaitra:v:61:y:2017:i:c:p:34-40}
+Lucy Budd and Stephen Ison.
+\newblock The role of dedicated freighter aircraft in the provision of global
+  airfreight services.
+\newblock {\em Journal of Air Transport Management}, 61(C):34--40, 2017.
 
 \bibitem[Dor15]{Dorigny}
 Mickael Dorigny.
