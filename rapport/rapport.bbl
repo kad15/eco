@@ -1,4 +1,4 @@
-\begin{thebibliography}{O'K14}
+\begin{thebibliography}{Eco14b}
 
 \bibitem[APM]{popescu}
 Pinar~Keskinocak Andreea~Popescu and Issam~Al Mutawaly.
@@ -12,11 +12,25 @@ Lucy Budd and Stephen Ison.
   airfreight services.
 \newblock {\em Journal of Air Transport Management}, 61(C):34--40, 2017.
 
-\bibitem[Eco14]{theEconomist01}
+\bibitem[Eco14a]{iata.org01}
+IATA Economics.
+\newblock {\em IMPACT ASSESSMENT OF WTO BALI DEAL ON AIR FREIGHT}.
+\newblock MArch 2014.
+\newblock
+  \url{https://www.iata.org/whatwedo/Documents/economics/bali-impact-march14.pdf}.
+
+\bibitem[Eco14b]{theEconomist01}
 The Economist.
 \newblock {\em Air cargo, Not pulling its weight}.
 \newblock Apr 15th 2014.
 \newblock \url{http://www.economist.com/node/21600946#print}.
+
+\bibitem[Eco15]{iata.org02}
+IATA Economics.
+\newblock {\em AIR FREIGHT MARKET ANALYSIS}.
+\newblock December 2015.
+\newblock
+  \url{https://www.iata.org/whatwedo/Documents/economics/freight-analysis-dec-2015.pdf}.
 
 \bibitem[lan16]{lantenne}
 {\em LE FRET AÉRIEN PRATIQUE | L'Antenne - Les transports et la logistique au
