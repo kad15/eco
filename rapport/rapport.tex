@@ -134,14 +134,6 @@
 }
 
 
-% pour avoir des figure encadrées
-%\usepackage{float}
-%\floatstyle{boxed} 
-%\restylefloat{figure}
-
-
-
-
 \begin{document}
 \renewcommand{\labelitemi}{\textbullet}
 % pour factoriser l'échelle des figures 
@@ -157,14 +149,18 @@
 \tableofcontents
 \justify
 \input{intro_conclusion/introduction}
-\input{sections/partie_1}
+\input{sections/partie_1_concurrence}
+\input{sections/partie_1_entrants}
+\input{sections/partie_1_substituts}
+\input{sections/partie_1_clients}
+\input{sections/partie_1_fournisseurs}
 \input{sections/partie_2}
 \input{sections/partie_3}
 \include{intro_conclusion/conclusion}
 
 
-\newpage
-\appendix
+%\newpage
+%\appendix
 %\include{annexes/annexe_A}
 %\include{annexes/annexe_B}
 
