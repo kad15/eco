@@ -1,10 +1,22 @@
 \begin{thebibliography}{O'K14}
 
+\bibitem[APM]{popescu}
+Pinar~Keskinocak Andreea~Popescu and Issam~Al Mutawaly.
+\newblock {\em The Air Cargo Industry}.
+\newblock
+  \url{http://www2.isye.gatech.edu/people/faculty/Pinar_Keskinocak/Chapter7Eno.pdf}.
+
 \bibitem[BI17]{RePEc:eee:jaitra:v:61:y:2017:i:c:p:34-40}
 Lucy Budd and Stephen Ison.
 \newblock The role of dedicated freighter aircraft in the provision of global
   airfreight services.
 \newblock {\em Journal of Air Transport Management}, 61(C):34--40, 2017.
+
+\bibitem[Eco14]{theEconomist01}
+The Economist.
+\newblock {\em Air cargo, Not pulling its weight}.
+\newblock Apr 15th 2014.
+\newblock \url{http://www.economist.com/node/21600946#print}.
 
 \bibitem[lan16]{lantenne}
 {\em LE FRET AÉRIEN PRATIQUE | L'Antenne - Les transports et la logistique au
@@ -16,5 +28,15 @@ Lucy Budd and Stephen Ison.
 Morton~E. O'Kelly.
 \newblock Air freight hubs in the fedex system: Analysis of fuel use.
 \newblock {\em Journal of Air Transport Management}, 36:1 -- 12, 2014.
+\newblock
+  {\url{https://www.purdue.edu/discoverypark/nextrans/assets/pdfs/086OY04%20Air%20Freight%20Hubs%20and%20Fuel%20Use.pdf}}.
+
+\bibitem[WF17]{Walcott201764}
+Susan~M. Walcott and Zhang Fan.
+\newblock Comparison of major air freight network hubs in the u.s. and china.
+\newblock {\em Journal of Air Transport Management}, 61:64 -- 72, 2017.
+\newblock
+  {\url{http://www.academyforlifelonglearning.org/index_htm_files/Aerotropolis%20JATM.pdf
+  }}.
 
 \end{thebibliography}
