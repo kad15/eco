@@ -1,9 +1,15 @@
-\begin{thebibliography}{BI17}
+\begin{thebibliography}{lan16}
 
 \bibitem[BI17]{RePEc:eee:jaitra:v:61:y:2017:i:c:p:34-40}
 Lucy Budd and Stephen Ison.
 \newblock The role of dedicated freighter aircraft in the provision of global
   airfreight services.
 \newblock {\em Journal of Air Transport Management}, 61(C):34--40, 2017.
+
+\bibitem[lan16]{lantenne}
+{\em LE FRET AÉRIEN PRATIQUE | L'Antenne - Les transports et la logistique au
+  quotidien}.
+\newblock 2016.
+\newblock \url{http://www.lantenne.com/LE-FRET-AERIEN-PRATIQUE_r169.html}.
 
 \end{thebibliography}
