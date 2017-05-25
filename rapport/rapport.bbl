@@ -12,6 +12,12 @@ Lucy Budd and Stephen Ison.
   airfreight services.
 \newblock {\em Journal of Air Transport Management}, 61(C):34--40, 2017.
 
+\bibitem[Bou12]{boutelet_2012}
+Cécile Boutelet.
+\newblock La fin des vols de nuit à francfort réduira les bénéfices de
+  lufthansa.
+\newblock {\em Le Monde}, Apr 2012.
+
 \bibitem[Eco14a]{iata.org01}
 IATA Economics.
 \newblock {\em IMPACT ASSESSMENT OF WTO BALI DEAL ON AIR FREIGHT}.
@@ -32,6 +38,12 @@ IATA Economics.
 \newblock
   \url{https://www.iata.org/whatwedo/Documents/economics/freight-analysis-dec-2015.pdf}.
 
+\bibitem[Gar12]{garric_2012}
+Audrey Garric.
+\newblock Interdiction des vols nocturnes : Roissy pourrait-il suivre l'exemple
+  de francfort ?
+\newblock {\em lemonde.fr}, Apr 2012.
+
 \bibitem[lan16]{lantenne}
 {\em LE FRET AÉRIEN PRATIQUE | L'Antenne - Les transports et la logistique au
   quotidien}.
@@ -45,17 +57,12 @@ Morton~E. O'Kelly.
 \newblock
   {\url{https://www.purdue.edu/discoverypark/nextrans/assets/pdfs/086OY04%20Air%20Freight%20Hubs%20and%20Fuel%20Use.pdf}}.
 
-\bibitem[TH16]{temme}
-Annette Temme and Stefanie Helm.
-\newblock {\em UNMANNED FREIGHT OPERATIONS}.
-\newblock 2016.
-\newblock \url{http://www.dglr.de/publikationen/2016/420292.pdf}.
-
 \bibitem[WF17]{Walcott201764}
 Susan~M. Walcott and Zhang Fan.
 \newblock Comparison of major air freight network hubs in the u.s. and china.
 \newblock {\em Journal of Air Transport Management}, 61:64 -- 72, 2017.
 \newblock
-  {\url{http://www.academyforlifelonglearning.org/index_htm_files/Aerotropolis%20JATM.pdf}}.
+  {\url{http://www.academyforlifelonglearning.org/index_htm_files/Aerotropolis%20JATM.pdf
+  }}.
 
 \end{thebibliography}
