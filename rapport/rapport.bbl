@@ -74,6 +74,13 @@ lefigaro.fr.
 \newblock
   \newline\url{http://www.lefigaro.fr/secteur/high-tech/2016/12/14/32001-20161214ARTFIG00207-amazon-a-livre-son-premier-colis-par-drone.php}.
 
+\bibitem[lem17]{lemonde_train}
+lemonde.fr.
+\newblock Le made in china parcourt 11 500 km en train, une première.
+\newblock {\em Le Monde}, Apr 2017.
+\newblock
+  \newline\url{http://lemonde.fr/economie/article/2016/04/21/le-made-in-china-parcours-11-500-km-en-train-une-premiere_4906433_3234.html}.
+
 \bibitem[O'K14]{O'Kelly20141}
 Morton~E. O'Kelly.
 \newblock Air freight hubs in the fedex system: Analysis of fuel use.
@@ -88,5 +95,11 @@ Susan~M. Walcott and Zhang Fan.
 \newblock
   {\url{http://www.academyforlifelonglearning.org/index_htm_files/Aerotropolis%20JATM.pdf
   }}.
+
+\bibitem[Wor15]{top50}
+Air~Cargo World.
+\newblock {\em Freight 50: The top 50 cargo carriers}.
+\newblock Aug 26th 2015.
+\newblock \url{http://aircargoworld.com/freight-50-the-top-50-cargo-carriers/}.
 
 \end{thebibliography}
