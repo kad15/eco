@@ -17,6 +17,8 @@ Cécile Boutelet.
 \newblock La fin des vols de nuit à francfort réduira les bénéfices de
   lufthansa.
 \newblock {\em Le Monde}, Apr 2012.
+\newblock
+  \url{http://lemonde.fr/economie/article/2012/04/05/la-fin-des-vols-de-nuit-a-francfort-reduira-les-benefices-de-lufthansa_1681126_3234.html}.
 
 \bibitem[Eco14a]{iata.org01}
 IATA Economics.
@@ -38,17 +40,39 @@ IATA Economics.
 \newblock
   \url{https://www.iata.org/whatwedo/Documents/economics/freight-analysis-dec-2015.pdf}.
 
+\bibitem[Eur08]{52008DC0750}
+Commission Européenne.
+\newblock Communication de la commission au conseil et au parlement européen -
+  le plan directeur de gestion du trafic aérien (plan directeur atm), 2008.
+\newblock
+  \newline\url{http://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:52008DC0750}.
+
 \bibitem[Gar12]{garric_2012}
 Audrey Garric.
 \newblock Interdiction des vols nocturnes : Roissy pourrait-il suivre l'exemple
   de francfort ?
 \newblock {\em lemonde.fr}, Apr 2012.
+\newblock
+  \url{http://lemonde.fr/societe/article/2012/04/10/interdiction-des-vols-nocturnes-roissy-pourrait-il-suivre-l-exemple-de-francfort_1681339_3224.html}.
 
-\bibitem[lan16]{lantenne}
-{\em LE FRET AÉRIEN PRATIQUE | L'Antenne - Les transports et la logistique au
-  quotidien}.
-\newblock 2016.
+\bibitem[Gra16]{gradt_2016}
+Jean-Michel Gradt.
+\newblock Livraison par drone : La poste signe une première mondiale.
+\newblock {\em Les Echos}, Dec 2016.
+\newblock
+  \url{https://www.lesechos.fr/15/12/2016/lesechos.fr/0211598506026_livraison-par-drone---la-poste-signe-une-premiere-mondiale.htm}.
+
+\bibitem[L'A]{lantenne}
+L'Antenne.
+\newblock Le fret aérien pratique.
 \newblock \url{http://www.lantenne.com/LE-FRET-AERIEN-PRATIQUE_r169.html}.
+
+\bibitem[lef16]{figaro_2016}
+lefigaro.fr.
+\newblock Amazon a livré son premier colis par drone.
+\newblock {\em Le Figaro}, Dec 2016.
+\newblock
+  \newline\url{http://www.lefigaro.fr/secteur/high-tech/2016/12/14/32001-20161214ARTFIG00207-amazon-a-livre-son-premier-colis-par-drone.php}.
 
 \bibitem[O'K14]{O'Kelly20141}
 Morton~E. O'Kelly.
